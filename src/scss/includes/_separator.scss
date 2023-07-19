@@ -1,0 +1,66 @@
+/**
+ *
+ * Separator style sheet
+ *
+ * 
+ * @project ContactSuite
+ * @version 1.0
+ * @author Wim Jurriaans
+ * @copyright 2017
+ * @licence MIT
+ *
+ * @date 10-02-2018
+ * @modified
+ * 
+ */
+
+@use "globals";
+@use "functions";
+@use "mixins";
+
+.separator-horizontal {
+  display: inline-block;
+  width: 90%;
+  margin: 10px auto;
+  height: 1px;
+  background-color: globals.$color-gray10;
+  @include mixins.clearfix();
+}
+
+.separator-v__right {
+  position: relative;
+  &:after {
+    content: '';
+    position: absolute;
+    display: block;
+    top: 5%;
+    right: 0;
+    bottom: 2%;
+    left: calc(100% - 1px);
+    background-color: globals.$color-gray10;
+  }
+}
+
+.separator-v__right_v2 {
+  position: relative;
+  padding: .5rem 40px 0 0 !important;
+  &:after {
+    content: '';
+    position: absolute;
+    display: block;
+    top: -47px;
+    right: 15px;
+    bottom: -30px;
+    width: 1px;
+    background-color: globals.$color-gray15;
+  }
+}
+
+.separator-horizontal--full {
+  display: block;
+  width: 100%;
+  margin: 9px auto;
+  height: 1px;
+  background-color: globals.$color-gray10;
+  @include mixins.clearfix();
+}

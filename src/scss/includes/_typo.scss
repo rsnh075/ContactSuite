@@ -1,0 +1,226 @@
+/**
+ *
+ * Typo style sheet
+ *
+ *
+ * @project ContactSuite
+ * @version 1.0
+ * @author Wim Jurriaans
+ * @copyright 2017
+ * @licence MIT
+ *
+ * @date 10-02-2018
+ * @modified
+ *
+ */
+
+@use "font";
+@use "globals";
+@use "functions" as fn;
+
+h2 {
+  @include font.font-medium();
+}
+
+.typo-tabletitle {
+  color: globals.$color-gray50;
+  font-size: .7rem;
+  float: left;
+  width: auto;
+  position: relative;
+  margin-top: 1.2rem;
+  margin-left: 1rem;
+  height: 40px;
+  line-height: 40px;
+  &--first {
+    margin-left: 0;
+  }
+  &--lower {
+    margin-top: 1.6rem;
+  }
+}
+
+.type-navtext {
+  min-width: 230px;
+  text-align: center;
+  background-color: globals.$color-white;
+  height: 25px;
+  line-height: 25px;
+  display: inline-block;
+  float: left;
+  margin-top: 5px;
+  font-size: .75em;
+  color: globals.$color-gray60;
+}
+
+.typo-tilestitle {
+  @include font.font-bold();
+  font-size: 1.6rem;
+  color: globals.$color-gray50;
+}
+
+.typo-message--bodyheader {
+  @include font.font-bold();
+  font-size: 0.8rem;
+  color: globals.$color-gray60;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.typo-dashboardtitle {
+  @include font.font-bold();
+  font-size: 1rem;
+  color: globals.$color-gray50;
+  float: left;
+  height: 40px;
+  line-height: 40px;
+  margin: 10px 20px 0 0;
+}
+
+.typo__note--pale {
+  position: relative;
+  float: left;
+  width: 100%;
+  height: auto;
+  min-height: 44px;
+  padding: 10px 20px 10px 50px;
+  font-size: 0.75rem;
+  line-height: 1.2rem;
+  color: globals.$color-blue;
+  background-color: fn.tint(globals.$color-blue, 90%);
+  transition: all 0.2s ease-in-out;
+  .typo__noot-content {
+    padding: 0 !important;
+    text-align: left;
+  }
+  &:before {
+    content: "?";
+    position: absolute;
+    top: 15px;
+    left: 0;
+    width: 40px;
+    text-align: center;
+    @include font.font-bold();
+    font-size: 2.2rem;
+    color: fn.tint(globals.$color-blue, 30%);
+  }
+}
+
+.typo--attention {
+  color: globals.$color-unavailable;
+  @include font.font-medium();
+}
+
+.typo--centered {
+  text-align: center;
+}
+
+.typo__anchor {
+  color: globals.$color-primary;
+  text-decoration: underline;
+}
+
+.typo-helptext {
+  display: none;
+  padding-top: 5px;
+  color: globals.$color-help;
+  font-size: .7rem;
+  &--w100 {
+    float: left;
+    width: 100%;
+  }
+}
+
+.typo-helptext--active {
+  display: block;
+}
+
+.typo--black {
+  color: globals.$color-black;
+}
+
+//TEMP
+.typo-center-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  @include font.font-light();
+  color: globals.$color-gray60;
+  font-size: 1rem;
+}
+
+.typo--paragraph-header {
+  font-size: 1.1rem;
+  line-height: 1.9rem;
+  color: globals.$color-gray80;
+}
+
+.typo--paragraph {
+  font-size: 0.7rem;
+  line-height: 1.2rem;
+  &--normal {
+    font-size: 1rem;
+  }
+}
+
+.typo--paragraph--medium {
+  font-size: 0.9rem;
+  line-height: 1.4rem;
+}
+
+.typo--paragraph--large {
+  font-size: 1rem;
+  line-height: 1.75rem;
+  color: globals.$color-gray60;
+}
+
+.typo--modalheader {
+  margin-top: 1.4rem;
+  margin-right: 1rem;
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+  float: left;
+  @include font.font-medium();
+  color: globals.$color-gray60;
+}
+
+.typo-h2-underline {
+  width: 100%;
+  font-size: 1.1em;
+  padding-bottom:.2em;
+  color: globals.$color-gray40;
+  border-bottom: 1px solid globals.$color-gray40;
+}
+
+.typo-input-label {
+  display: block;
+  position: absolute;
+  top: 5px;
+  height: 100%;
+  width: 100%;
+  padding-bottom: 4px;
+  padding-left: 3px;
+  min-height: 14px;
+  font-size: .7rem;
+  overflow: hidden;
+  color: globals.$color-gray30;
+  font-family: 'Open Sans SemiBold', sans-serif;
+  &--h20 {
+    position: relative;
+    height: 20px;
+  }
+  &--h20 {
+    position: relative;
+    height: 20px;
+  }
+  &--h30 {
+    position: relative;
+    height: 30px;
+  }
+  &--select-search-fly-out {
+    position: relative;
+    margin-bottom: -10px;
+  }
+}

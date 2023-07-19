@@ -1,0 +1,204 @@
+/**
+ *
+ * Tree style sheet
+ *
+ *
+ * @project ContactSuite
+ * @version 1.0
+ * @author Wim Jurriaans
+ * @copyright 2017
+ * @licence MIT
+ *
+ * @date 22-08-2019
+ * @modified
+ *
+ */
+
+@use "globals";
+@use "functions";
+@use 'sass:math';
+
+$baseUnit             : 40px;
+$verticalSpace        : .4 * $baseUnit;
+$lineIndent           : .25 * $baseUnit;
+$indent               : .5  * $baseUnit;
+
+$verticalSpace-static : .5 * $baseUnit;
+
+$lineThickness        : 2px;
+$contentHeight        : $baseUnit;
+$backgroundColor      : globals.$color-white;
+$contentColor         : globals.$color-black;
+$contentBackColor     : functions.tint(globals.$color-black, 93%);
+
+.unknownitem {
+  &--hide {
+    display: none !important;
+  }
+}
+
+.scripttree-wrapper {
+  overflow: hidden; //auto !important;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.scripttree-branch-wrapper {
+    // margin: 0 0 $verticalSpace 0;
+    display: grid;
+}
+
+.scripttree__leaf {
+    padding-top: (.9 * $verticalSpace);
+    &:last-of-type {
+        padding-bottom: (.9 * $verticalSpace);
+    }
+    &[data-closed="0"] > .scripttree-branch-wrapper {
+        /* open */
+        transition: grid-template-rows 500ms;
+        grid-template-rows: 1fr;
+    }
+    &[data-closed="1"] > .scripttree-branch-wrapper  {
+        /* closed */
+        display: grid;
+        transition: grid-template-rows 500ms;
+        grid-template-rows: 0fr;
+    }
+}
+
+//BRANCH AKA UL
+.scripttree-branch {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  list-style: none;
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 36px;
+    left: 2 * $lineIndent;
+    width: 1px;
+    opacity: 0;
+    border-left: $lineThickness solid functions.shade($contentBackColor, 3%);
+    z-index: 0;
+  }
+  li:last-child {
+    &:after {
+      content: '';
+      position: absolute;
+      top: (.5 * $contentHeight);
+      bottom: $verticalSpace;
+      left: 0;
+      width: $lineIndent;
+      background-color: transparent;
+      z-index: 1;
+    }
+  }
+  &--close {
+    &:before {
+      opacity: 0;
+    }
+    li:before {
+      opacity: 0;
+    }
+    ul:before {
+      opacity: 0;
+    }
+  }
+}
+
+
+//LEAF
+.scripttree__leaf {
+  position: relative;
+  color: $contentColor;
+  padding-left: $indent;
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  &:before {
+    content: '';
+    position: absolute;
+    top: 36px;
+    left: 20px;
+    width: 28px;
+    border-top: $lineThickness solid functions.shade($contentBackColor, 3%);
+    z-index: 10;
+    opacity: 1;
+    transition: opacity .2s ease-in-out .3s;
+  }
+}
+
+.scriptmodule-toggle {
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+    top: 26px;
+    left: 0;
+    z-index: 100;
+    background-color: transparent;
+    svg {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 0.9rem;
+        pointer-events: none;
+        color: globals.$color-gray30;
+        background-color: transparent;
+    }
+    &:hover svg {
+        color: globals.$color-gray40;
+    }
+    &--disabled {
+        pointer-events: none;
+    }
+}
+
+.scripttree-branch--static {
+  &:before {
+    top: (-1 * $verticalSpace-static);
+  }
+  .scriptmodule {
+    margin: 0 0 $verticalSpace-static 0;
+  }
+}
+
+.scripttree__leaf--open {
+  & > .scriptmodule .scriptmodule__content .scriptmodule__props--open,
+  & > div .scripttree-branch:before {
+    opacity: 1;
+  }
+
+}
+
+.scripttree__leaf--first {
+//   padding-left: 10px;
+  margin-left: -10px;
+}
+
+.scripttree-branch--start {
+  position: relative;
+//   float: left;
+  width: 100%;
+  list-style: none;
+//   margin-left: (-1 * $indent);
+//   margin-right: $indent;
+  &:before {
+    display: none;
+  }
+  & > .scripttree__leaf:before {
+    display: none;
+  }
+  & > .scriptmodule__controls--add-optional {
+    padding-left: 10px;
+  }
+}
+
+.scripttree--start {
+//   float: left;
+  width: 100%
+}

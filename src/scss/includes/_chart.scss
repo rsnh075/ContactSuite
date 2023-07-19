@@ -1,0 +1,113 @@
+/**
+ *
+ * Chart classes
+ *
+ * 
+ * @project ContactSuite
+ * @version 1.0
+ * @author Wim Jurriaans
+ * @copyright 2019
+ * @licence MIT
+ *
+ * @date 06-05-2019
+ * @modified
+ * 
+ */
+
+@use "font";
+@use "globals";
+
+.chart__donut {
+  position: relative;
+  display: block;
+  float: left;
+  height: 140px;
+  width: 50%;
+  padding: 10px 10px 10px 0;
+}
+
+.chart__legend {
+  position: absolute;
+  top: 168px;
+  bottom: 0;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 3px;
+}
+
+.chart__legend-header {
+  position: absolute;
+  top: 140px;
+  width: calc(100% - 16px);
+  height: 25px;
+  border-bottom: 1px solid globals.$color-gray10;
+  height: 25px;
+  line-height: 25px;
+  font-size: .9rem;
+  @include font.font-menu();
+  padding-left: 22px;
+  .datastamp {
+    padding-right: 4px;
+    float: right;
+  }
+}
+
+.chart__legend-label {
+  position: relative;
+  float: left;
+  width: 100%;
+  height: 25px;
+  line-height: 25px;
+  font-size: .9rem;
+  @include font.font-menu();
+  padding-left: 22px;
+  cursor: pointer;
+  &:nth-child(even) {
+    background-color: globals.$color-gray5;
+  }
+  &:hover {
+    background-color: globals.$color-gray10;
+  }
+  .datastamp {
+    padding-right: 4px;
+    float: right;
+  }
+  .active-item {
+    font-weight: bold;
+  }
+}
+
+.chart__legend-bull {
+  position: absolute;
+  left: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  width: 13px;
+  height: 13px;
+  display: block;
+}
+
+.chart__info {
+  position: relative;
+  display: block;
+  float: left;
+  width: 50%;
+  font-size: .9rem;
+  @include font.font-menu();
+  margin-top: 70px;
+  transform: translateY(-50%);
+  span {
+    position: relative;
+    display: block;
+    float: left;
+    text-align: center;
+    width: 100%;
+    overflow: hidden;
+    &:nth-child(2) {
+      font-size: 1.2rem;
+      color: globals.$color-help;
+    }
+  }
+}

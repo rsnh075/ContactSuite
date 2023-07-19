@@ -1,0 +1,62 @@
+/**
+ *
+ * Chat classes
+ *
+ * 
+ * @project ContactSuite
+ * @version 1.0
+ * @author Wim Jurriaans
+ * @copyright 2017
+ * @licence MIT
+ *
+ * @date 20-12-2018
+ * @modified
+ * 
+ */
+
+@use "font";
+@use "globals";
+
+.tooltip {
+  visibility: hidden;
+  width: auto;
+  background-color:  globals.$color-home;
+  color:  globals.$color-white;
+  text-align: center;
+  border-radius: 4px;
+  padding: 2px 10px;
+  position: absolute;
+  z-index: 1;
+  @include font.font-normal();
+  font-size: .7rem;
+  opacity: 0;
+  transition: opacity .5s;
+  white-space: nowrap;
+  box-shadow: 0 0 4px 0 rgba(0,0,0,.4);
+  &--right {
+    top: 50%;
+    left: calc(100% + 8px);
+    transform: translateY(-50%);
+    &:before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: 100%;
+      margin-top: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent globals.$color-home transparent transparent;
+    }
+  }
+}
+
+.tooltip__parent {
+  cursor: default;
+}
+
+.tooltip__parent:hover {
+  .tooltip {
+    visibility: visible;
+    opacity: 1;
+  }
+}

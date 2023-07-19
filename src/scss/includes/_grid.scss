@@ -1,0 +1,264 @@
+/**
+ *
+ * Grid resets
+ *
+ * @project ContactSuite
+ * @version 1.0
+ * @author Wim Jurriaans
+ * @copyright 2017
+ * @licence MIT
+ *
+ * @date 09-01-2018
+ * @modified
+ *
+ */
+
+@use "font";
+@use "globals";
+@use "mixins";
+
+.grid--push {
+  float: right;
+}
+
+.grid--pull {
+  float: left;
+}
+
+.grid-row {
+  position: relative;
+  width: 100%;
+  padding: .25rem 0;
+  margin: 0 auto;
+  @include mixins.clearfix();
+  &--isvisible {
+    max-height: 200px; /*adjust height to your needs*/
+    transition: max-height 0.2s ease-in-out;
+  }
+  &--ishidden {
+    max-height: 0;
+    transition: max-height 0.2s ease-in-out;
+    overflow: hidden;
+  }
+  &--hr-bottom {
+    padding-bottom: 1rem !important;
+    margin-bottom: 1rem;
+    &:after {
+      content: '';
+      position: absolute;
+      display: block;
+      top: calc(100% - 1px);
+      right: 2.3%;
+      bottom: 0;
+      left: 2.3%;
+      background-color: globals.$color-gray10;
+    }
+  }
+  &--no-padding {
+    padding: 0;
+  }
+  .grid--push {
+    float: right;
+  }
+  &--less-padding {
+    [class*="grid-unit"] {
+      padding-top: .25rem;
+      padding-bottom: .25rem;
+      .form-textfield--search-on-white {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+
+
+[class*="grid-unit"] {
+  position: relative;
+  text-align: left;
+  padding: 0 .5rem;
+  @media #{globals.$media_S} {
+    padding: 0 1rem;
+  }
+  @media #{globals.$media_M} {
+    padding: 0 1.5rem;
+  }
+  @media #{globals.$media_L} {
+    padding: 0 1.5rem;
+  }
+  @media #{globals.$media_XL} {
+    padding: 0 1.5rem;
+  }
+  @include mixins.clearfix();
+  .grid-row {
+    padding: 0;
+    &--bottom-padding {
+      padding-bottom: 0.7rem;
+    }
+  }
+}
+
+.grid-unit--alpha {
+  width: 100%;
+  float: left;
+  &--bottomline:after {
+    border-bottom: 1px solid globals.$color-gray20;
+    display: block;
+  }
+  &-less-v-padding {
+    padding-top: .2rem !important;
+    padding-bottom: .2rem !important;
+  }
+  &--flex {
+    display: flex;
+    gap: 5px;
+    &:after {
+        display: none;
+    }
+  }
+}
+
+.grid-unit--beta {
+  width: 100%;
+  float: left;
+  @media #{globals.$media_M} {
+    width: 50%;
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+  }
+  &-form {
+    @media #{globals.$media_M} {
+      padding-bottom: 0;
+    }
+  }
+  &-less-v-padding {
+    padding-top: .2rem !important;
+    padding-bottom: .2rem !important;
+  }
+}
+
+.grid-unit--gamma {
+  width: 100%;
+  float: left;
+  @media #{globals.$media_M} {
+    width: 50%;
+  }
+  @media #{globals.$media_L} {
+    width: 33.3333%;
+  }
+  &--double {
+    width: 100%;
+    float: left;
+    @media #{globals.$media_M} {
+      width: 66.666%;
+    }
+  }
+}
+
+.grid-unit--gamma-fixed {
+  width: 33.333%;
+  float: left;
+  padding: 0 !important;
+  &-double {
+    float: left;
+    width: 66.666%;
+    padding: 0 !important;
+  }
+}
+
+.grid-unit--delta {
+  width: 25%;
+  float: left;
+}
+
+.grid-unit--epsilon {
+  width: 20%;
+  float: left;
+}
+
+.grid-unit--zeta {
+  width: 16.666%;
+  float: left;
+}
+
+.grid-unit--gamma-floor {
+  width: 30%;
+  float: left;
+}
+
+.grid-unit--delta-fixed {
+  width: 25%;
+  float: left;
+  padding: 0 !important;
+  &-tripple {
+    float: left;
+    width: 75%;
+    padding: 0 !important;
+  }
+}
+
+.grid-unit--no-padding {
+  padding: 0;
+}
+
+.grid-unit--multiselect-and-icon {
+  .form-multiselectfield--dashboardtop {
+    width: calc(100% - 43px);
+    position: absolute;
+    top: 0; left: 0;
+  }
+  .menu-toggle-list__icon {
+    position: absolute;
+    top: 11px; right: 0;
+  }
+}
+
+.grid-inner-row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.grid-inner-gamma {
+  width: 33%;
+  &--double {
+    width:66%;
+  }
+}
+
+.grid-inner-epsilon {
+  width: 20%;
+  &--double {
+    width:40%;
+  }
+  &--tripple {
+    width:40%;
+  }
+}
+
+.grid-inner--push {
+  display:flex;
+  flex-direction:row;
+  justify-content:flex-end;
+}
+
+.grid-row--widtget {
+  padding: 0;
+  [class*="grid-unit"] {
+    padding: 0 .5rem;
+  }
+}
+
+.grid-row--report-filters {
+  padding: 0 15px;
+}
+
+.grid-unit--70 {
+  float: left;
+  width: 70%;
+}
+
+.grid-unit--30 {
+  float: left;
+  width: 30%;
+}

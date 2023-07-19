@@ -1,0 +1,14 @@
+node_modules
+dist
+public/js
+public/IPCCCGUI
+package-lock.json
+
+.idea/ContactSuiteV3.iml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/.gitignore
+.vscode/settings.json
+public/assets/settings/custom_settings.json
+public/assets/settings/custom_settings_old.json
+

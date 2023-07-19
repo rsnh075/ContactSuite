@@ -1,0 +1,183 @@
+/**
+ *
+ * Mixins style sheet
+ *
+ * 
+ * @project ContactSuite
+ * @version 1.0
+ * @author Wim Jurriaans
+ * @copyright 2017
+ * @licence MIT
+ *
+ * @date 19-09-2017
+ * @modified
+ * 
+ */
+
+@use "functions" as fn;
+@use 'sass:math';
+
+@mixin aspect-ratio($w, $h) {
+  position: relative;
+  &:before {
+    display: block;
+    content: "";
+    width: 100%;
+    padding-top: math.div($h, $w) * 100%;
+  }
+  > .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+@mixin clearfix() {
+  &:after {
+    content: "";
+    display: table;
+    clear:both;
+  }
+}
+
+@mixin add-close-cross($thickness, $borderraduis, $color) {
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    height: $thickness;
+    border-radius: $borderraduis;
+    background-color: $color;
+  }
+  &:before {
+    transform: translate(-50%, -50%)
+               rotate(-45deg);
+  }
+  &:after {
+    transform: translate(-50%, -50%)
+               rotate(45deg);
+  }
+  &:not(:disabled):hover:before,
+  &:not(:disabled):hover:after {
+    background-color: fn.tint($color, 30%);
+  }
+}
+
+@mixin add-to-right-arrow($thickness, $borderraduis, $color) {
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 25%;
+    height: $thickness;
+    border-radius: $borderraduis;
+    background-color: $color;
+    transform-origin: 100% 50%;
+  }
+  &:before {
+    transform: translate(-50%, -50%)
+               rotate(-45deg);
+  }
+  &:after {
+    transform: translate(-50%, -50%)
+               rotate(45deg);
+  }
+  &:not(:disabled):hover:before,
+  &:not(:disabled):hover:after {
+    background-color: fn.tint($color, 30%);
+  }
+}
+
+@mixin add-to-left-arrow($thickness, $borderraduis, $color) {
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    width: 25%;
+    height: $thickness;
+    border-radius: $borderraduis;
+    background-color: $color;
+    transform-origin: 100% 50%;
+  }
+  &:before {
+    transform: translate(-50%, -50%)
+               rotate(135deg);
+  }
+  &:after {
+    transform: translate(-50%, -50%)
+               rotate(225deg);
+  }
+  &:not(:disabled):hover:before,
+  &:not(:disabled):hover:after {
+    background-color: fn.tint($color, 30%);
+  }
+}
+
+@mixin add-to-left-arrow--before($thickness, $borderraduis, $color) {
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0px;
+    width: 14px;
+    height: $thickness;
+    border-radius: $borderraduis;
+    background-color: $color;
+    transform-origin: 100% 50%;
+  }
+  &:before {
+    transform: translateY(-50%)
+               rotate(135deg);
+  }
+  &:after {
+    transform: translateY(-50%)
+               rotate(225deg);
+  }
+  &:not(:disabled):hover:before,
+  &:not(:disabled):hover:after {
+    background-color: fn.tint($color, 30%);
+  }
+}
+
+@mixin add-checkmark($thickness, $borderraduis, $color) {
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 20%;
+    height: $thickness;
+    border-radius: $borderraduis;
+    background-color: $color;
+    transform-origin: #{math.div($thickness, 2)} center;
+    left: calc(40% + #{math.div($thickness, 2)});
+  }
+  &:before {
+    width: 50%;
+    transform: rotate(-45deg);
+  }
+  &:after {
+    width: 30%;
+    transform: rotate(-135deg);
+  }
+  &:not(:disabled):hover:before,
+  &:not(:disabled):hover:after {
+    background-color: fn.tint($color, 30%);
+  }
+}
+
+@mixin chopToLongText($w) {
+  text-overflow: ellipsis;
+  overflow: hidden; 
+  width: $w; 
+  white-space: nowrap;
+}

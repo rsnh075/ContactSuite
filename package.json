@@ -1,0 +1,39 @@
+{
+  "name": "contactsuite_2022",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "npm run build && vite preview"
+  },
+  "dependencies": {
+    "@gnaudio/jabra-js": "^4.1.2",
+    "@tinymce/tinymce-vue": "^4.0.4",
+    "@types/wavesurfer.js": "^6.0.3",
+    "axios": "^0.21.1",
+    "chart.js": "^4.2.1",
+    "janus-gateway-js": "^2.0.2",
+    "mdue": "^0.1.2",
+    "moment": "^2.29.1",
+    "pikaday": "^1.8.2",
+    "pinia": "^2.0.28",
+    "vue": "^3.2.11",
+    "vue-multiselect": "^3.0.0-alpha.2",
+    "vue-router": "^4.0.13",
+    "vue-types": "^3.0.2",
+    "vuex": "^4.0.2",
+    "wavesurfer.js": "^6.6.2",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.17",
+    "@vitejs/plugin-vue": "^1.6.0",
+    "@vue/compiler-sfc": "^3.1.2",
+    "json-formatter-js": "^2.3.4",
+    "page-lifecycle": "^0.1.2",
+    "raf": "^3.4.1",
+    "sass": "^1.35.1",
+    "typescript": "^4.3.4",
+    "vite": "^2.3.8"
+  }
+}

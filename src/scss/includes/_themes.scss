@@ -1,0 +1,144 @@
+/**
+ *
+ * Theme classes
+ *
+ * 
+ * @project ContactSuite
+ * @version 1.0
+ * @author Wim Jurriaans
+ * @copyright 2017
+ * @licence MIT
+ *
+ * @date 07-01-2019
+ * @modified
+ * 
+ */
+
+@use "globals";
+@use "mixins";
+
+.null,
+.redTheme,
+.yellowTheme,
+.orangeTheme,
+.blueTheme,
+.greenTheme,
+.purpleTheme,
+.bronseTheme,
+.pinkTheme {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  top: calc(50% - 15px);
+  left: calc(50% - 6px);
+  transform: translate(-50%, -50%);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-color: transparent;
+}
+
+.null {
+  color : #CCC;
+  background-color: #E9E9E9;
+  &:before {
+    content: "No theme found";
+    width: 100%;
+    text-align: center;
+    height: 96px;
+    line-height: 96px;
+  }
+}
+
+.redTheme {
+  color : #E7332A;
+  background-image: url('/assets/images/licentie_icons.svg');
+  background-position: 0 0;
+}
+
+.yellowTheme {
+  color : #FCEA10;
+  background-image: url('/assets/images/licentie_icons.svg');
+  background-position: 0 -64px;
+}
+
+.blueTheme {
+  color : #009FE3;
+  background-image: url('/assets/images/licentie_icons.svg');
+  background-position: 0 -128px;
+}
+
+.greenTheme {
+  color : #3AAA35;
+  background-image: url('/assets/images/licentie_icons.svg');
+  background-position: 0 -192px;
+}
+
+.orangeTheme {
+  color : #F39200;
+  background-image: url('/assets/images/licentie_icons.svg');
+  background-position: 0 -256px;
+}
+
+.bronseTheme {
+  color : #A48A7A;
+  background-image: url('/assets/images/licentie_icons.svg');
+  background-position: 0 -320px;
+}
+
+.purpleTheme {
+  color : #662383;
+  background-image: url('/assets/images/licentie_icons.svg');
+  background-position: 0 -384px;
+}
+
+.pinkTheme {
+  color : #E5007D;
+  background-image: url('/assets/images/licentie_icons.svg');
+  background-position: 0 -448px;
+}
+
+[class*="--treelist"] {
+  display: block;
+  border-bottom: 1px solid globals.$color-gray10;
+  height: 26px;
+  line-height: 26px;
+  margin-bottom: 5px;
+  margin-top: 10px;
+  @include mixins.chopToLongText(calc(100% - 12px));
+}
+
+.null--treelist {
+  color : #CCC;
+}
+
+.redTheme--treelist {
+  color : #E7332A;
+}
+
+.yellowTheme--treelist {
+  color : #FCEA10;
+}
+
+.blueTheme--treelist {
+  color : #009FE3;
+}
+
+.greenTheme--treelist {
+  color : #3AAA35;
+}
+
+.orangeTheme--treelist {
+  color : #F39200;
+}
+
+.bronseTheme--treelist {
+  color : #A48A7A;
+}
+
+.purpleTheme--treelist {
+  color : #662383;
+}
+
+.pinkTheme--treelist {
+  color : #E5007D;
+}

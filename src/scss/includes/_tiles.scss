@@ -1,0 +1,424 @@
+/**
+ *
+ * tiles style sheet
+ *
+ * tiles styles
+ *
+ * @project ContactSuite
+ * @version 1.0
+ * @author Wim Jurriaans
+ * @copyright 2017
+ * @licence MIT
+ *
+ * @date 09-02-2018
+ * @modified
+ *
+ */
+
+ @use "font";
+@use "globals" as g;
+@use "mixins";
+
+.tiles-item {
+  position: relative;
+  float: left;
+  padding: 11px;
+  width: 100%;
+  height: 140px;
+  perspective: 1000px;
+  @media #{g.$media_S} {
+    width: 50%;
+  }
+  @media #{g.$media_M} {
+    width: 33.333%;
+  }
+  @media #{g.$media_XL} {
+    width: 25%;
+  }
+  @include mixins.clearfix();
+  &--download {
+    height: auto;
+  }
+}
+
+.tiles-item__inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.4s;
+  transform-style: preserve-3d;
+  border: 1px solid g.$color-gray20;
+  background-color: g.$color-white;
+}
+
+.tiles-item__link-nr {
+  display: block;
+  color: g.$color-blue;
+  font-size: 1.125rem;
+  @include font.font-medium();
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tiles-item--flipper:hover .tiles-item__inner {
+  transition: transform 0.4s linear 0.25s;
+  transform: rotateY(180deg);
+  .tiles-item__front {
+    transition: visibility 0.4s linear 0.25s;
+    transition: opacity 0.4s linear 0.25s;
+    visibility: hidden;
+    opacity: 0;
+  }
+  .tiles-item__back {
+    transition: visibility 0.4s linear 0.25s;
+    transition: opacity 0.4s linear 0.25s;
+    transition: transform 0.4s linear 0.25s;
+    visibility: visible;
+    opacity: 1;
+    transform: rotateY(180deg);
+  }
+}
+
+.tiles-item__front,
+.tiles-item__back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.tiles-item__front {
+
+}
+
+.tiles-item__back {
+  transition: transform 0.4s linear;
+  transform: rotateY(180deg);
+  padding: 10px;
+  .tiles-item__link-nr {
+    font-size: .8rem;
+  }
+}
+
+.tiles-item__button-block {
+  width: 100%;
+  padding: 30px 5px 5px 5px;
+  .tiles-item__button--edit,
+  .tiles-item__button--delete {
+    position: relative;
+    float: left;
+    width: 50%;
+    height: 40px;
+    line-height: 40px;
+    background-color: g.$color-white;
+    color: g.$color-gray60;
+    text-align: left;
+    font-size: .8em;
+    padding: 0 40px 0 10px;
+    overflow: hidden;
+    cursor: pointer;
+    &:after {
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.4em;
+      @include font.font-icon();
+      z-index: 10;
+    }
+    &:nth-child(odd) {
+      border-right: 1px solid g.$color-gray20;
+    }
+  }
+  .tiles-item__button--edit:after {
+    content: '\F3EB';
+  }
+  .tiles-item__button--delete:after {
+    content: '\F1C0';
+  }
+  .tiles-item__button--edit:hover {
+    &:after {
+      color: g.$color-excel-icon;
+    }
+  }
+  .tiles-item__button--delete:hover {
+    &:after {
+      color: g.$color-unavailable;
+    }
+  }
+}
+
+.tiles-item__link {
+  position: relative;
+  display: block;
+  float: left;
+  width: 100%;
+  padding: 26px 30px;
+  text-decoration: none;
+  transition: all .2s ease-in-out;
+  &--icon:after {
+    content:'\F5E1';
+    position: absolute;
+    @include font.font-icon();
+    bottom: 0;
+    right: 0;
+    transform: translate(-50%, -50%);
+    width: 24px;
+    height: 24px;
+    line-height: 27px;
+    margin: 0 -5px -2px 0;
+    border-radius: 50%;
+    overflow: hidden;
+    color: g.$color-secondary;
+    font-size: 1.4rem;
+  }
+  &--before-icon:before {
+    content:'\F5E1';
+    position: absolute;
+    @include font.font-icon();
+    bottom: 0;
+    left: 0;
+    transform: translate(0, -60%);
+    width: 24px;
+    height: 24px;
+    line-height: 27px;
+    margin: 0 -5px -2px 0;
+    border-radius: 50%;
+    overflow: hidden;
+    color: g.$color-secondary;
+    font-size: 1.4rem;
+  }
+  &--opaque {
+    background-color: g.$color-white;
+    &:link,
+    &:visited,
+    &:hover,
+    &:active {
+      border: 1px solid g.$color-gray20;
+    }
+    &:hover {
+      border: 1px solid g.$color-white;
+      transition: all .2s ease-in-out;
+      transform: scale(1.025);
+      box-shadow: 0 0 5px g.$color-gray10;
+    }
+  }
+}
+
+
+.tiles-item__link-lbl {
+  display: block;
+  color: g.$color-gray40;
+  font-size: 0.8125rem;
+  @include font.font-medium();
+  @include mixins.chopToLongText(100%);
+}
+
+.tiles-item__link-price {
+  display: block;
+  color: g.$color-gray40;
+  font-size: 0.7rem;
+  @include font.font-light();
+  @include mixins.chopToLongText(100%);
+  margin-top: 10px;
+  margin-bottom: -10px;
+  visibility: visible;
+  &--hidden {
+    visibility: hidden;
+  }
+}
+
+.tiles-item__link-filename {
+  display: block;
+  color: g.$color-blue;
+  font-size: 0.875rem;
+  @include font.font-medium();
+}
+
+.tiles-item__link-filetype {
+  position: absolute;
+  bottom: 40px;
+  display: inline-block;
+  color: g.$color-gray40;
+  font-size: 0.75rem;
+  @include font.font-medium();
+  &:before {
+    content:'\F1DA';
+    position: relative;
+    display: inline-block;
+    vertical-align: text-bottom;
+    @include font.font-icon();
+    width: 24px;
+    height: 24px;
+    line-height: 27px;
+    margin: 0 0 0 -2px;
+    overflow: hidden;
+    font-size: 1.4rem;
+  }
+  &--pdf:before {
+    content:'\F226';
+    color: g.$color-pdf-icon;
+  }
+  &--word:before {
+    content:'\F22D';
+    color: g.$color-word-icon;
+  }
+  &--powerpoint:before {
+    content:'\F228';
+    color: g.$color-powerpoint-icon;
+  }
+  &--excel:before {
+    content:'\F21C';
+    color: g.$color-excel-icon;
+  }
+}
+
+.tiles-item__link-download {
+  margin: 26px -30px -26px -30px;
+  padding-top: 4px;
+  height: 20px;
+  text-align: center;
+  font-size: 0.6875rem;
+  color: white;
+  background-color: g.$color-gray40;
+  &:after {
+    content:'\F1DA';
+    position: absolute;
+    @include font.font-icon();
+    top: 50%;
+    right: 2px;
+    transform: translate(-50%, -50%);
+    width: 24px;
+    height: 24px;
+    line-height: 27px;
+    margin: 0 -10px -13px 0;
+    overflow: hidden;
+    color: white;
+    font-size: 1rem;
+  }
+}
+
+
+
+.tiles-document-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
+  align-content: flex-start;
+  //justify-content: center;
+  max-width: 1280px;
+  margin: 0 auto;
+  height: auto;
+  min-height: auto;
+  padding: 3rem 2rem 1rem 2rem;
+  .tiles-item {
+    display: flex;
+    align-self: stretch;
+    .tiles-item__link {
+      padding: 26px 30px 70px 30px;
+      .tiles-item__link-download {
+        position: absolute;
+        bottom: 25px;
+        left: 30px;
+        right: 30px;
+        height: 35px;
+        line-height: 35px;
+        padding: 0;
+      }
+    }
+  }
+}
+
+.tiles-1x4 {
+  .tiles-1x4__item {
+    float: left;
+    padding: 10px 20px;
+    width: 25%;
+    &:not(:last-child) {
+      border-right: 1px solid g.$color-gray15;
+    }
+  }
+}
+
+.tiles-2x2 {
+  .tiles-2x2__item {
+    &:nth-child(1) {
+      border-right: 1px solid g.$color-gray15;
+      border-bottom: 1px solid g.$color-gray15;
+    }
+    &:nth-child(2) {
+      border-bottom: 1px solid g.$color-gray15;
+    }
+    &:nth-child(3) {
+      border-right: 1px solid g.$color-gray15;
+    }
+  }
+}
+
+.tiles-2x2__item {
+  float: left;
+  padding: 20px;
+  width: 50%;
+}
+
+.tiles-2x2__item-value,
+.tiles-1x4__item-value {
+  color: g.$color-warmyellow;
+  font-size: 3rem;
+  padding-bottom: 1px;
+}
+
+.tiles-2x2__item-label,
+.tiles-1x4__item-label {
+  color: g.$color-gray30;
+  font-size: 1.2rem;
+}
+
+.tiles-1x4__item-value {
+  font-size: 2.5rem;
+}
+
+.tiles-1x4__item-label {
+  font-size: 1rem;
+}
+
+.tiles-2x3 {
+    .tiles-2x3__item {
+        &:nth-child(1) {
+            border-right: 1px solid g.$color-gray15;
+            border-bottom: 1px solid g.$color-gray15;
+        }
+        &:nth-child(2) {
+            border-bottom: 1px solid g.$color-gray15;
+        }
+        &:nth-child(3) {
+            border-right: 1px solid g.$color-gray15;
+            border-bottom: 1px solid g.$color-gray15;
+        }
+        &:nth-child(4) {
+            border-bottom: 1px solid g.$color-gray15;
+        }
+        &:nth-child(5) {
+            border-right: 1px solid g.$color-gray15;
+        }
+    }
+}
+
+.tiles-2x3__item {
+    float: left;
+    padding: 20px;
+    width: 50%;
+}
+
+.tiles-2x3__item-value {
+    color: g.$color-warmyellow;
+    font-size: 3rem;
+    padding-bottom: 1px;
+}
+
+.tiles-2x3__item-label {
+    color: g.$color-gray30;
+    font-size: 1.2rem;
+}

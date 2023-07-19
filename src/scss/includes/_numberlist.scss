@@ -1,0 +1,116 @@
+/**
+ *
+ * Numberlist classes
+ *
+ * 
+ * @project ContactSuite
+ * @version 1.0
+ * @author Wim Jurriaans
+ * @copyright 2019
+ * @licence MIT
+ *
+ * @date 17-03-2020
+ * @modified
+ * 
+ */
+
+@use './globals';
+@use './font';
+
+.numberlist-wrapper {
+  float: left;
+  width: 100%;
+  padding: 10px 5px 30px 5px;
+}
+
+
+.numberlist__row-cell {
+  display: block;
+  float: left;
+  padding: 3px 20px;
+}
+
+.numberlist__header {
+  .numberlist__row-cell h4 {
+    padding: 5px 0;
+  }
+}
+
+.numberlist__row-cell {
+  &--25 {
+    width: 25%;
+    text-align: center;
+  }
+  &--50 {
+    width: 50%;
+  }
+}
+
+.numberlist__list {
+  overflow: hidden;
+  overflow-y: overlay;
+  height: 200px;
+  width: 100%;
+  .numberlist__row-cell {
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px solid globals.$color-gray10;
+  }
+}
+
+.numberlist__radio {
+  position: relative;
+  width: 100%;
+  height: 35px;
+  float: left;
+  label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    width: 100%;
+    user-select: none;
+    color: globals.$color-gray50;
+    cursor: pointer;
+    &:before {
+      content: "\F43D";
+      position: absolute;
+      display: block;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      @include font.font-icon();
+      font-size: 22px;  
+      color: globals.$color-gray50;
+    }
+    &:hover:before {
+      font-size: 26px;
+    }
+  }
+  input[type=radio] {
+    position: absolute;
+    left: -10000px;
+    z-index: 10;
+  }
+  input[type=radio]:checked + label:before  {
+    content: "\F43E";
+    color: globals.$color-primary;
+  }
+  input[type=radio]:disabled {
+    pointer-events: none;
+    cursor: default;
+  }
+  input[type=radio]:disabled + label {
+    opacity: .4;
+    cursor: default;
+  }
+  input[type=radio]:disabled + label:before  {
+    cursor: default;
+  }
+  input[type=radio]:disabled + label:hover:before  {
+    cursor: default;
+    font-size: 22px;  
+  }
+}

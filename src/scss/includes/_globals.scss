@@ -1,0 +1,180 @@
+/**
+ *
+ * Global varibles
+ *
+ * @project ContactSuite
+ * @version 1.0
+ * @author Wim Jurriaans
+ * @copyright 2017
+ * @licence MIT
+ *
+ * @date 19-09-2017
+ * @modified
+ *
+ */
+
+@use "functions" as fn;
+
+/*-------------------------------------------------------------COLORS-*/
+//use: primary, secondary, tertiary, quaternary, quinary
+
+//CS3.0 Colors
+$color-home              : #213A8F;
+$color-interaction       : #F39200;
+$color-performance       : #4BAAF0;
+$color-reporting         : #E6332A;
+$color-media             : #662483;
+$color-availability      : #3AAA35;
+$color-settings          : #B28879;
+$color-helpcenter        : #538BE0;
+
+$color-white             : #FFF;
+$color-black             : #000;
+
+$color-primary           : #0796BA;
+$color-secondary         : #6ABC45;
+
+$color-supervisor        : $color-primary;
+$supervisor-idle         : $color-primary;
+$supervisor-coaching     : $color-primary;
+$supervisor-listens      : $color-interaction;
+$supervisor-joined       : $color-reporting;
+
+$chat-header             : #037CAF;
+$chat-friend             : #009FE3;
+$chat-me                 : #F2F2F2;
+
+
+$color-available         : $color-secondary;
+$color-unavailable       : #BA2726;
+$color-alert             : #F00;
+$color-warning           : #F26B36;
+$color-orange            : #E8A631;
+$color-warmyellow        : #EAA200;
+$color-purple            : #915AA4;
+$color-lightblue	     : #F2F8FD;
+$color-blue              : #0095BC;
+$color-darkblue          : #00C;
+$color-green             : #74B40E;
+$color-rta-alert         : #F00;
+$color-menu-active       : #4BAAF0;
+$color-help              : #538BE0;
+
+$color-pdf-icon          : #E41D1A;
+$color-word-icon         : #11418E;
+$color-excel-icon        : #21892F;
+$color-powerpoint-icon   : #D65024;
+
+$color-scrollbartrack    : #E6E6E6;
+$color-scrollbarhover    : #757575;
+$color-scrollbarthumb    : fn.tint($color-scrollbarhover, 40%);
+
+$color-sonicsilver       : #757575;
+
+$color-gray2             : fn.tint($color-black, 98%);
+$color-gray3             : fn.tint($color-black, 97%);
+$color-gray5             : fn.tint($color-black, 95%);
+$color-gray7             : fn.tint($color-black, 93%);
+$color-gray10            : fn.tint($color-black, 90%);
+$color-gray15            : fn.tint($color-black, 85%);
+$color-gray20            : fn.tint($color-black, 80%);
+$color-gray25            : fn.tint($color-black, 75%);
+$color-gray30            : fn.tint($color-black, 70%);
+$color-gray35            : fn.tint($color-black, 65%);
+$color-gray40            : fn.tint($color-black, 60%);
+$color-gray50            : fn.tint($color-black, 50%);
+$color-gray60            : fn.tint($color-black, 40%);
+$color-gray75            : fn.tint($color-black, 25%);
+$color-gray80            : fn.tint($color-black, 20%);
+$color-gray90            : fn.tint($color-black, 10%);
+
+$dashboard-toolbtn-width : 70;
+$snackbar-height         : 130;
+
+
+/*-------------------------------------------------------------VARIABLES --*/
+
+$max-pagewidth           : 1920px;
+$min-pagewidth           : 1024px;
+
+$font-size               : 16px;
+$line-height             : 1.25;
+
+$btn-height              : 40px;
+$btn-height-big          : 60px;
+
+$aside-max-width         : 260px;
+$agentpanel-height       : 60px;
+
+$level-app               : 1000;
+$level-app-modal         : 1500;
+$level-snackbar          : 2000;
+$level-interaction       : 3000;
+$level-chat              : 4000;
+$level-header            : 5000;
+$level-message           : 6000;
+$level-phonebuttons      : 7000;
+
+
+$header-height           : 80px;
+$submenu-width           : 250px;
+
+/* ---------------------------------------------------------- MEDIAQUERYS MOBILE FIRST --*/
+
+$media_XS               : "only screen and (min-width: 321px )"; /* Extra Small Devices               */
+$media_S                : "only screen and (min-width: 480px )"; /* Small Devices, Phones             */
+$media_M                : "only screen and (min-width: 768px )"; /* Medium Devices, Tablets           */
+$media_L                : "only screen and (min-width: 1025px)"; /* Large Devices, Desktops           */
+$media_XL               : "only screen and (min-width: 1275px)"; /* Extra Large Devices, Wide Screens */
+$media_XXL              : "only screen and (min-width: 1400px)"; /* Extra Large Devices, Wide Screens */
+
+
+@use "./font";
+
+::-webkit-input-placeholder {
+  @include font.font-normal();
+  color: $color-gray15;
+}
+
+:-moz-placeholder {
+  @include font.font-normal();
+  color: $color-gray15;
+}
+
+::-moz-placeholder {
+  @include font.font-normal();
+  color: $color-gray15;
+}
+
+:-ms-input-placeholder {
+  @include font.font-normal();
+  color: $color-gray15;
+}
+
+::-ms-input-placeholder {
+  @include font.font-normal();
+  color: $color-gray15;
+}
+
+:placeholder-shown {
+  @include font.font-normal();
+  color: $color-gray15;
+}
+
+*::-webkit-scrollbar {
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    width: 6px;
+    height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+    background: $color-scrollbartrack;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: $color-scrollbarthumb;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: $color-scrollbarhover;
+}

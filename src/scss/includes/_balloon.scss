@@ -1,0 +1,53 @@
+/**
+ *
+ * BALOON style sheet
+ *
+ * 
+ * @project ContactSuite
+ * @version 1.0
+ * @author Wim Jurriaans
+ * @copyright 2017
+ * @licence MIT
+ *
+ * @date 21-06-2018
+ * @modified
+ * 
+ */
+@use "./functions";
+@use './globals';
+
+.balloon-dialog--help {
+  position: absolute;
+  top: -2000px;
+  right: 24px;
+  opacity: 0;
+  min-height: 0;
+  height: auto;
+  max-width: 520px;
+  z-index: 10000;
+  display: block;
+  border-radius: 3px;
+  box-shadow: 0 3px 6px 0 rgba(0,0,0,.2);
+  transform: opacity .2s ease-in-out;
+  background-color: functions.tint(globals.$color-blue, 90%);
+  &-visible {
+    opacity: 1;
+    top: 0px;
+  }
+  &:before {
+    content: "";
+    position: absolute;
+    right: 18px;
+    bottom: 100%;
+    border: 15px solid transparent;
+    border-bottom-color: globals.$color-white;
+  }
+  &:after {
+    content: "";
+    position: absolute;
+    right: 20px;
+    bottom: 100%;
+    border: 13px solid transparent;
+    border-bottom-color: functions.tint(globals.$color-blue, 90%);
+  }
+}

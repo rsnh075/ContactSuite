@@ -1,0 +1,624 @@
+/**
+ *
+ * RTA Gaphh style sheet
+ *
+ * 
+ * @project ContactSuite
+ * @version 1.0
+ * @author Wim Jurriaans
+ * @copyright 2017
+ * @licence MIT
+ *
+ * @date 29-06-2018
+ * @modified
+ * 
+ */
+
+ @use "font";
+ @use "globals";
+ @use "functions";
+ @use "mixins";
+
+.rtagraph__lines {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.rtagraph__line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-left: 1px dotted globals.$color-white;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.rtagraph__label {
+  position: absolute;
+  display: block;
+  top: -10px;
+  left: 0;
+  transform: translateX(-50%);
+  @include font.font-normal();
+  font-size: 9px;
+  z-index: 150;
+}
+
+.rtagraph__activity-bar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 51%;
+  left: 0;
+  z-index: 50;
+  &--bottom {
+    bottom: 0;
+    top: 51%;
+    z-index: 75;
+  }
+}
+
+.rtagraph__alert-bar {
+  position: absolute;
+  top: 101%;
+  right: 0;
+  bottom: -10%;
+  left: 0; 
+  z-index: 100;
+}
+
+.rtagraph__bar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  transition: right .1s ease-in;
+  &:before {
+    content: '';
+    position: fixed;
+    width: 0;
+    height: 0;
+    display: none;
+    right: 335px;
+    bottom: 86px;
+    border: 6px solid transparent;
+    border-top-color: functions.tint(globals.$color-primary, 80%);
+    border-right-color: functions.tint(globals.$color-primary, 80%);
+    z-index: 1010;
+  }
+  &:after {
+    content: attr(data-tip);
+    position: fixed;
+    display: none;
+    right: 330px;
+    //top: -10px;
+    bottom: 98px;
+    //transform: translateX(-50%);
+    padding: 2px 8px;
+    background-color: functions.tint(globals.$color-primary, 80%);
+    color: globals.$color-gray80;
+    font-size: .7rem;
+    border-radius: 1px;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,.2); 
+    z-index: 1000;
+  }
+  &:hover {
+    &:before,
+    &:after {
+      display: block;
+    } 
+  }
+}
+
+.rtagraph__alert-bar-bar {
+  position: absolute;
+  top: 1px;
+  bottom: 0;
+  transition: right .1s ease-in;
+  background-color: globals.$color-rta-alert;
+}
+
+.rtamapping__wrapper,
+.rtathresholds__wrapper {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  bottom: 40px;
+  transform: translateX(-50%);
+  width: calc(100% - 6rem);
+  //min-width: calc(924px - 4rem);
+  max-width: 1280px;
+  max-height: 640px;
+  margin: 0 auto;
+  [class^="rtamapping__col"] {
+    position: absolute;
+    top: 0;
+    bottom: 50px;
+    h2 {
+      font-size: 1rem;
+      color: globals.$color-gray40;
+      height: 30px;
+      line-height: 30px;
+      padding-left: 3px;
+    }
+    &:nth-child(1) {
+      left: 0;
+    }
+    &:nth-child(2) {
+      left: calc(25% + 8px);
+    }
+    &:nth-child(3) {
+      left: calc(75% + 8px);
+    }
+  }
+  .rtamapping__col--beta {
+    width: calc(50% - 16px);
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 30px, rgba(0,0,0,.1) 30px, rgba(0,0,0,.1) 100%);
+    &:before {
+      content: attr(data-message);
+      position: absolute;
+      width: 80%;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: globals.$color-gray30;
+      text-align: center;
+    }
+    .form-textfield {
+      width: 100%;
+      height: 40px;
+      background-color: globals.$color-gray10;
+      padding: 0 80px;
+      input[type='text'] {
+        font-size: 1rem;
+        color: globals.$color-gray80;
+        @include font.font-medium();
+        line-height: 30px;
+        height: 30px;
+        width: 100%;
+        text-align: center;
+        margin: 5px 0;
+        padding: 0 3px;
+        background-color: globals.$color-white;
+        &:read-only {
+          color: globals.$color-gray80;
+          border-bottom: none;
+          background-color: globals.$color-gray10;
+        }
+        &.notValid {
+          border: 1px solid globals.$color-unavailable;
+          animation: inputshake 0.6s cubic-bezier(.36,.07,.19,.97) both;
+          backface-visibility: hidden;
+          perspective: 1000px;
+        }
+      }
+    }
+    .form-button__secondary {
+      margin-top: -0.4rem;
+      button {
+        padding-right: 0px;
+      }
+    }
+  }
+  .rtamapping__col--delta {
+    width: calc(25% - 8px);
+  }
+  .rtamapping__footer {
+    position: absolute;
+    bottom: 0;
+    left: calc(25% + 8px);
+    width: calc(50% - 16px);
+    height: 40px;
+  }
+  .rtamapping__cta {
+    position: absolute;
+    bottom: 0;
+    left: calc(75% + 8px);
+    width: calc(25% - 8px);
+    height: 40px;
+    padding-top: 5px;
+  }
+}
+
+@keyframes inputshake {
+  10%, 90% {
+    margin-left: -1px;
+  }
+  
+  20%, 80% {
+    margin-left: -3px;
+  }
+
+  30%, 50%, 70% {
+    margin-left: -6px;
+  }
+
+  40%, 60% {
+    margin-left: 6px;
+  }
+}
+
+[class^="rtamapping__col"] .panel {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  .form-textfield--search {
+    margin-top: 0;
+    border-bottom: 1px solid globals.$color-gray10;
+    z-index: 10;
+    input[type='text'] {
+      border-bottom: none;
+      padding-top: 5px;
+    }
+    &:before {
+      top: 55%;
+    }
+  }
+}
+
+.rtamapping__edit-btns-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 70px;
+  height: 40px;
+  overflow: hidden;
+  z-index: 20;
+}
+
+.rtamapping__edit-btns {
+  position: relative;
+  display: block;
+  float: left;
+  width: 35px;
+  height: 40px;
+  line-height: 40px;
+  @include font.font-icon();
+  cursor: pointer;
+  text-align: center;
+  color: globals.$color-gray40;
+  background-color: globals.$color-gray10;
+  &:hover {
+    color: globals.$color-secondary;
+  }
+  &--save {
+    color: globals.$color-primary;
+  }
+  &--delete:hover {
+    color: globals.$color-unavailable;
+  }
+}
+
+.rta-itemlist-wrapper {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  list-style-type: none;
+  overflow-y: auto;
+  &--half {
+    right: calc(50% - 7px);
+    border-right: 1px solid globals.$color-gray20;
+  }
+  &--half:last-child {
+    right: 0;
+    left: calc(50% + 7px);
+    border-right: none;  
+  }
+  .rta-itemlist-line {
+    position: relative;
+    width: 100%;
+    height: 35px;
+    background-color: globals.$color-white;
+    &:nth-child(even) {
+      background-color: globals.$color-gray2;
+    }
+    &:hover {
+      background-color: functions.tint(globals.$color-primary, 95%);
+    }
+    .rta-itemlist-line__label {
+      width: calc(100% - 35px);
+      height: 35px;
+      line-height: 35px;
+      float: left;
+      font-size: .8rem;
+      color: globals.$color-gray50;
+      padding-left: 10px;
+      @include mixins.chopToLongText(calc(100% - 35px));
+    }
+    .form-radio-small {
+      width: calc(100% - 35px);
+      label {
+        width: calc(100% - 35px);
+        @include mixins.chopToLongText(calc(100% - 35px));
+      }
+    }
+    a {
+      position: relative;
+      text-decoration: none;
+      font-size: .8rem;
+      color: globals.$color-gray50;
+      height: 35px;
+      line-height: 35px;
+      display: block;
+      &:hover:before {
+        color: globals.$color-unavailable;
+      }
+    }
+    &--selected {
+      &:hover {
+        background-color: globals.$color-white;
+      }
+      &:nth-child(even):hover {
+        background-color: globals.$color-gray2;
+      }
+      a {
+        float: left;
+        width: 35px;
+        height: 35px;
+      }
+      a:before {
+        content: '\F156';
+        position: absolute;
+        top: 0;
+        width: 35px;
+        height: 35px;
+        line-height: 34px;
+        @include font.font-icon();
+        color: functions.tint(globals.$color-unavailable, 80%);
+        font-size: 1.2rem;
+        margin: 0;
+        text-align: center;
+        z-index: 5;
+      }
+    }
+    &--status {
+      a:before {
+        content: '\F141';
+        height: 35px;
+        line-height: 34px;
+        float: left;
+        @include font.font-icon();
+        color: globals.$color-gray35;
+        margin: 0;
+        font-size: 1.2rem;
+        text-align: center;
+        width: 26px;
+      }
+    }
+    &--activity {
+      text-indent: 16px;
+      a:after {
+        content: '\F142';
+        position: absolute;
+        top: 0;
+        right: 12px;
+        z-index: 5;
+        height: 35px;
+        line-height: 34px;
+        @include font.font-icon();
+        color: globals.$color-gray35;
+        font-size: 1.2rem;
+        margin: 0;
+        text-align: center;
+        width: 26px;
+      }
+    }
+  }
+}
+
+.rtamapping__nav-prev,
+.rtamapping__nav-next {
+  position: absolute;
+  top: 0;
+  height: 40px;
+  line-height: 40px;
+  display: block;
+  cursor: pointer;
+  padding: 0 10px;
+  color: globals.$color-primary;
+  font-size: .7rem;
+  @include font.font-medium();
+  &:before {
+    position: absolute;
+    display: block;
+    top: 0;
+    height: 40px;
+    line-height: 40px;
+    width: 15px;
+    text-align: center;
+    @include font.font-icon();
+    font-size: 1.2rem;
+    color: globals.$color-primary;
+  }
+}
+
+.rtamapping__nav-prev {
+  padding-left: 15px;
+  left: 0;
+  &:before {
+    content: '\F141';
+    left: -3px;
+  }
+}
+
+.rtamapping__nav-next {
+  padding-right: 15px;
+  right: 0;
+  &:before {
+    content: '\F142';
+    right: 0;
+  }
+}
+
+.rtamapping__nav-dots {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 40px;
+  line-height: 40px;
+  width: auto;
+  display: block;
+  .rtamapping__nav-dots-dot {
+    position: relative;
+    width: 20px;
+    height: 40px;
+    display: inline-block;
+    cursor: pointer;
+    span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px;
+      height: 8px;
+      display: block;
+      background-color: globals.$color-gray20;
+      border-radius: 50%;
+      transition: all .2s ease-in;
+    }
+    &--active span {
+      width: 10px;
+      height: 10px;
+      background-color: globals.$color-primary;
+    }
+  }
+}
+
+.rtathresholds__wrapper {
+  
+ .rtathresholds__col {
+    position: absolute;
+    top: 0;
+    overflow: hidden;
+    &:nth-child(odd) {
+      left: 0;
+      width: 200px;
+    }
+    &:nth-child(even) {
+      left: 200px;
+      width: calc(100% - 200px);
+    }
+    &--toprow {
+      bottom: calc(100% - 200px);
+    }
+    &--bottomrow {
+      top: 200px;
+      bottom: 60px;
+    }
+    .panel {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      width: calc(100% - 16px);
+      height: calc(100% - 16px);
+    }
+  }
+  .rtathresholds__footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    padding-top: 10px;
+    padding-right: 10px;
+  }
+}
+
+
+.rtathreshold-list,
+.rtathreshold-list__header {
+  position: absolute;
+  list-style-type: none;
+}
+
+.rtathreshold-list__header {
+  li {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    background-color: globals.$color-white;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: globals.$color-gray50;
+    border-bottom: 1px solid globals.$color-gray20;
+  }
+  .cell-hover {
+    background-color: functions.tint(globals.$color-primary, 90%);
+  }
+  &--vertical {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+    li {
+      position: relative;
+      border-bottom: none;
+      border-right: 1px solid globals.$color-gray20;
+      height: 184px;
+      width: 50px;
+      min-width: 50px;
+      display: flex;
+      align-items: flex-end;
+      span {
+        position:absolute;
+        display: block;
+        transform-origin: left top;
+        top: 100%;
+        left: 50%;
+        transform: rotate(-90deg) translate(10px, -50%);
+        width: 184px;
+      }
+    } 
+  }
+}
+
+.rtathreshold-list {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  background-color: globals.$color-white;
+  .rtathreshold-list-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+    height: 50px;
+    line-height: 50px;
+    span {
+      display: inline-block;
+      cursor: default;
+      width: 50px;
+      min-width: 50px;
+      max-width: 50px;
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      background-color: globals.$color-gray10;
+      border-right:  1px solid globals.$color-white;
+      border-bottom: 1px solid globals.$color-white;
+      &:first-child {
+        border-left:  1px solid globals.$color-white;
+      }
+    }
+    .cell-empthy {
+      background-color: globals.$color-gray15;
+      cursor: default;
+    }
+    &:first-child span {
+      border-top:  1px solid globals.$color-white;
+    }
+  }
+}
+
+.rtathreshold-scrollAll {
+  overflow: auto;
+}

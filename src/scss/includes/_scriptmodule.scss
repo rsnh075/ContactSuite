@@ -1,0 +1,544 @@
+/**
+ *
+ * Scriptmodule style sheet
+ *
+ *
+ * @project ContactSuite
+ * @version 1.0
+ * @author Wim Jurriaans
+ * @copyright 2017
+ * @licence MIT
+ *
+ * @date 26-08-2019
+ * @modified 03-12-2019
+ *
+ */
+
+@use "font";
+@use "globals";
+@use "mixins";
+
+@use "scripttree" as *;
+@use "functions";
+
+.scriptmodule__arrow {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 300ms;
+  z-index: 20000;
+  pointer-events: none;
+  overflow: visible;
+  min-width: 4px;
+  min-height: 4px;
+  svg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+}
+
+.scriptmodule {
+    position: relative;
+    display: flex;
+    width: fit-content;
+    border-radius: 5px;
+    border: 2px solid transparent;
+}
+
+.scriptmodule--hasoptionals {
+  margin-bottom: 2 * $verticalSpace;
+
+}
+
+.scripttree-branch .scripttree__leaf {
+  padding-left: 1.2 * $baseUnit;
+  width: 100%;
+}
+
+
+.scriptmodule__exittype {
+  position: absolute;
+  line-height: 22px;
+  top: 50%;
+  left: -24px;
+  transform: translateY(-50%);
+  background-color: globals.$color-white;
+  border-radius: 3px;
+  z-index: 100;
+  @include font.font-icon();
+  text-align: center;
+}
+
+.scriptmodule--close {
+  .addnewmodule--js {
+    display: none;
+  }
+  .scripttree-branch:after {
+    opacity: 0;
+  }
+}
+
+.scriptmodule__content {
+    position: relative;
+    padding-right: 50px;
+    white-space: nowrap;
+    overflow: hidden;
+  height: $contentHeight;
+  line-height: calc(#{$contentHeight} - 1px);
+  background-color: $contentBackColor;
+  border-radius: 2px;
+  box-shadow: 1px 1px 1px 0 rgba(0,0,0,.2);
+  &--highlight {
+    box-shadow: inset 0 0 0 2px #538be0, inset 0 0 20px 15px globals.$color-white;
+  }
+  &--hover:hover {
+    box-shadow: 1px 1px 1px 0 rgba(0,0,0,.2),
+                inset 0 0 1px 2px rgba(100, 151, 227, 1);
+  }
+  &--mandatory,
+  &--optional,
+  &--redirect {
+    background-color: transparent;
+    box-shadow: none;
+    border: 1px dashed globals.$color-interaction;
+    background-image: repeating-linear-gradient(125deg, functions.tint(globals.$color-interaction, 70%), functions.tint(globals.$color-interaction, 70%) 0.2%, transparent 0.2%,  transparent 2%);
+    cursor: pointer;
+    &:hover {
+      border: 1px dashed globals.$color-availability;
+      background-image: repeating-linear-gradient(125deg, functions.tint(globals.$color-availability, 70%), functions.tint(globals.$color-availability, 70%) 0.2%, transparent 0.2%,  transparent 2%);
+    }
+    & > span {
+      pointer-events: none;
+    }
+    &-disabled {
+      opacity: .5;
+      pointer-events: none;
+    }
+  }
+  &--optional {
+    border: 1px dashed globals.$color-gray15;
+    background-image: repeating-linear-gradient(125deg, globals.$color-gray5, globals.$color-gray5 0.2%, transparent 0.2%,  transparent 2%);
+  }
+  &--redirect {
+    border: none;
+    background-image: none;
+    background-color: globals.$color-help;
+    color: globals.$color-white;
+    .scriptmodule__icon {
+      color: globals.$color-white;
+      line-height: 30px;
+      transform: rotate(90deg);
+      background-color: transparent;
+    }
+    .scriptmodule__controls--settings {
+      color: globals.$color-help;
+    }
+    &:hover {
+      border: none;
+      background-image: none;
+      background-color: transparent;
+    }
+    &-nohover:hover {
+      background-color: globals.$color-help;
+    }
+    .nr {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      line-height: 24px;
+      margin-left: 10px;
+      background-color: rgba(255, 255, 255, .8);
+      text-align: center;
+      color: globals.$color-help;
+      border-radius: 50%;
+      @include font.font-medium();
+      font-size: .8em;
+    }
+  }
+}
+
+[data-destination='100000000'],
+[data-destination='100000000']:hover {
+  background-color: functions.tint(globals.$color-help, 25%);
+  background-image: repeating-linear-gradient(55deg, functions.tint(globals.$color-help, 50%), functions.tint(globals.$color-help, 50%) 0.2%, transparent 0.2%,  transparent 2%);
+  border: 1px dashed globals.$color-white;
+}
+
+a[data-status="isclosed"] span {
+  transform: translate(-50%, -50%) rotate(0deg);
+  color: globals.$color-white;
+  background-color: functions.tint(globals.$color-warning, 20%);
+}
+
+.scriptmodule__icon {
+    float: left;
+    width: 35px;
+    height: 40px;
+    line-height: 40px;
+    @include font.font-icon();
+    font-size: 1.2em;
+    pointer-events: none;
+    text-align: center;
+    color: globals.$color-gray50;
+    &--error {
+        color: globals.$color-gray50;
+    }
+    &--rotated {
+        transform: rotate(90deg);
+    }
+    &--add-exit {
+        color: globals.$color-availability;
+        background-color: globals.$color-white;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        margin: 5px;
+        line-height: 30px;
+        font-size: 1.2em;
+    }
+}
+
+.scriptmodule__name-wrapper {
+    height: 40px;
+    line-height: 40px;
+    // float: left;
+    overflow: hidden;
+}
+
+.scriptmodule__optional-element--btn {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    float: left;
+}
+
+.scriptmodule__name {
+//   float: left;
+    max-width: 300px;
+    display: inline-block;
+    padding-left: 5px;
+    font-size: .8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+    &-label {
+        max-width: 300px;
+        display: inline-block;
+        padding-left: 5px;
+        font-size: .8rem;
+        pointer-events: none;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+.scriptmodule__add-exittype {
+  position: relative;
+  float: left;
+  width: 100%;
+}
+
+.scriptmodule__controls--add-optional {
+  position: absolute;
+  width: 100%;
+  height: (.5 * $baseUnit);
+  top: 45px;
+}
+
+.scriptmodule__controls--add {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  border-radius: 10px;
+  background-color: globals.$color-white;
+  color: globals.$color-availability;
+  cursor: pointer;
+  font-size: 1.2em;
+  @include font.font-icon();
+  left: 1px;
+  top: (.25 * $verticalSpace);
+  z-index: 100;
+  &:hover {
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, .4);
+  }
+  &:before {
+    content: '';
+    position: absolute;
+    top: (-.5 * $verticalSpace);
+    bottom: 100%;
+    left: $lineIndent - 1px;
+    width: 1px;
+    border-left: $lineThickness solid functions.shade($contentBackColor, 3%);
+    z-index: 0;
+  }
+}
+
+.scriptmodule__controls--remove,
+.scriptmodule__controls--settings {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 5px;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  color: globals.$color-gray60;
+  border-radius: 50%;
+  font-size: 1.2em;
+  text-align: center;
+  @include font.font-icon();
+  cursor: pointer;
+  user-select: none;
+  z-index: 10;
+  &:before {
+    display: none;
+  }
+  &:hover {
+    background-color: globals.$color-white;
+  }
+  &-disabled {
+    pointer-events: none;
+    opacity: .3;
+  }
+}
+
+.scriptmodule__controls--remove {
+  color: globals.$color-reporting;
+  right: 40px;
+  z-index: 100;
+  &-right {
+    right: 5px;
+  }
+  &-redirect {
+    color: globals.$color-white;
+    &:hover {
+      color: globals.$color-help;
+    }
+  }
+  &-disabled {
+    pointer-events: none;
+    opacity: .3;
+  }
+}
+
+.scriptmodule__controls-addmodule {
+  position: relative;
+  width: auto;
+  height: 40px;
+  line-height: 40px;
+  display: block;
+  float: left;
+  margin-left: 15px;
+  color: globals.$color-availability;
+  @include font.font-medium();
+  cursor: pointer;
+  &:before {
+    content: '\F419';
+    @include font.font-icon();
+    padding-right: 3px;
+  }
+}
+
+.scriptmodule__props {
+  position: fixed;
+  display: none;
+  margin-left: 1px;
+  margin-bottom: 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 674px;
+  background-color: $contentBackColor;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,.3),
+              inset 0 -2px 1px 0 rgba(0,0,0,.3),;
+  height: auto;
+  pointer-events: none;
+  z-index: 1000;
+  & > * {
+    pointer-events: all;
+  }
+}
+
+.fliped {
+  border-radius: 4px 4px 0 0;
+  box-shadow: 0 -2px 4px 0 rgba(0,0,0,.3),
+              inset 0 2px 1px 0 rgba(255,255,255,.8),
+              0 2px 1px 0 rgba(255,255,255, .8);
+}
+
+.scriptmodule__props-footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 50px;
+  text-align: right;
+  padding: 5px 15px 5px 0;
+  .button-primary {
+    font-size: .8rem;
+  }
+}
+
+.scriptmodule__modulepicker,
+.scriptmodule__exitpicker {
+  position: fixed;
+  background-color: globals.$color-white;
+  box-shadow: 0 1px 8px 0 rgba(0,0,0,.3);
+  min-width: 220px;
+  width: 320px;
+  padding: 6px 0;
+  margin: 4px 0 0 10px;
+  list-style: none;
+  z-index: 2000;
+  display: none;
+  border-radius: 0 3px 3px 3px;
+  &--open {
+    display: block;
+  }
+//   &--intree {
+//     margin-left: -16px;
+//   }
+  &:before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 0;
+    bottom: 100%;
+    border: 10px solid transparent;
+    border-bottom-color: globals.$color-gray10;
+    z-index: 1;
+  }
+  & > div {
+    width: 100%;
+    padding: 0 10px;
+    height: 35px;
+    line-height: 35px;
+    float: left;
+    display: block;
+    font-size: .8em;
+    user-select: none;
+    cursor: pointer;
+    &:after {
+      display: none;
+    }
+    &:not(:first-child):hover {
+      background-color: globals.$color-gray15;
+    }
+    &:first-child {
+      cursor: default;
+      font-weight: bold;
+      color: globals.$color-gray60;
+      //font-size: .9rem;
+      background-color: globals.$color-gray10;
+      margin-top: -6px;
+      height: 40px;
+      line-height: 27px;
+      padding-top: 6px;
+      border-radius: 3px 3px 0 0;
+    }
+  }
+  div > span {
+    position: relative;
+    display: block;
+    float: left;
+    width: 19px;
+    height: 19px;
+    margin: 8px 8px 8px 0;
+    line-height: 19px;
+    color: globals.$color-gray40;
+    border-radius: 3px;
+    @include font.font-icon();
+    font-size: 1.4em;
+    text-align: center;
+    pointer-events: none;
+  }
+}
+
+.hfliped {
+  &:before {
+    margin-top: -6px;
+    bottom: auto;
+    top: calc(100% + 6px);
+    border-radius: 3px 3px 3px 0;
+    border: 10px solid transparent;
+    border-bottom-color: transparent;
+    border-top-color: globals.$color-white;
+    z-index: 1;
+  }
+}
+
+.scriptmodule__modulepicker-header,
+.scriptmodule__exitpicker-header {
+  width: 100%;
+  padding: 0 10px;
+  height: 35px;
+  line-height: 35px;
+  float: left;
+  display: block;
+  font-size: .8em;
+  border-bottom: 1px solid globals.$color-gray10;
+}
+
+.scriptmodule__modulepicker-subheader {
+  width: 100%;
+  margin-top: 5px;
+  padding: 0 10px  !important;
+  height: 20px !important;
+  line-height: 20px !important;
+  float: left;
+  display: block;
+  font-size: .7em !important;
+  text-transform: uppercase;
+  color: globals.$color-gray40;
+  &:hover {
+    cursor: default;
+    // background-color: transparent !important;
+  }
+}
+
+.scriptmodule__modulepicker-header--close,
+.scriptmodule__exitpicker-header--close {
+    float: right;
+    width: 22px;
+    height: 22px;
+    margin-top: 4px;
+    margin-right: -4px;
+    border-radius: 50%;
+    line-height: 10px;
+    color: globals.$color-gray60;
+    background: globals.$color-white;
+    cursor: pointer;
+    &:hover {
+        box-shadow: inset 0 0 0 1px globals.$color-gray20;
+        svg {
+            color: globals.$color-unavailable;
+        }
+    }
+}
+
+.scriptmodule__exitpicker {
+  width: 240px;
+  margin-left: 0;
+  z-index: 1000;
+  li span {
+    position: relative;
+    display: block;
+    float: left;
+    width: 19px;
+    height: 19px;
+    margin: 8px 8px 8px 0;
+    line-height: 19px;
+    color: globals.$color-white;
+    background-color: globals.$color-gray40;
+    border-radius: 3px;
+    @include font.font-icon();
+    text-align: center;
+    pointer-events: none;
+  }
+}

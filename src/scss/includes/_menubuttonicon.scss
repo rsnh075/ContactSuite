@@ -1,0 +1,101 @@
+/**
+ *
+ * Button style sheet
+ *
+ * 
+ * @project ContactSuite
+ * @version 1.0
+ * @author Wim Jurriaans
+ * @copyright 2017
+ * @licence MIT
+ *
+ * @date 12-01-2020
+ * @modified
+ * 
+ */
+
+@use "globals" as g;
+@use "font";
+
+.menubuttonicon-wrapper {
+  text-align: center;
+  .button-icon__item {
+    margin: 0 20px;
+  }
+}
+
+.menubuttonicon__item {
+  display: inline-block;
+  width: 180px;
+  height: 180px;
+  color: g.$color-gray40;
+  font-size: 0.8rem;
+  text-align: center;
+  @include font.font-menu();
+  cursor: pointer;
+  text-decoration: none;
+  &:hover {
+    background-color: g.$color-gray2;
+    border-bottom: 3px solid g.$color-interaction;
+    .menubuttonicon__item-icon {
+      color: g.$color-interaction;
+    }
+  }
+  &-icon {
+    @include font.font-icon();
+    font-size: 3.4em;
+    padding: 40px 0 20px 0;
+  }
+  &-icon--agent {
+    &:before {
+      content: "\F2CE";
+    }
+  }
+  &-icon--device,
+  &-icon--externalservicenumber {
+    &:before {
+      content: "\F61C";
+    }
+  }
+  &-icon--voipaccount,
+    &-icon--internalservicenumber {
+    &:before {
+      content: "\F3FE";
+    }
+  }
+  &-icon--voipgroup {
+    &:before {
+      content: "\F848";
+    }
+  }
+  &-icon--email {
+    &:before {
+      content: "\F212";
+    }
+  }
+  &-icon--couple {
+    &:before {
+      content: "\F9BA";
+    }
+  }
+  &-icon--telephony {
+    &:before {
+      content: "\F3F2";
+    }
+  }
+  &-icon--textmessage {
+    &:before {
+      content: "\F9A7";
+    }
+  }
+  &-title {
+    font-size: 1rem;
+    line-height: 1.4rem;
+    color: g.$color-gray60;
+  }
+  &-paragraph {
+    font-size: 0.8rem;
+    line-height: 1.2rem;
+    color: g.$color-gray40;
+  }
+}

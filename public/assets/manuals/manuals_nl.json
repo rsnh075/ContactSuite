@@ -1,0 +1,64 @@
+{
+  "manuals" : [
+    {
+    "name" : "Introductie - Home",
+    "type" : "PDF Document",
+    "icon" : "pdf",
+    "loc" : "assets/manuals/introductie-home-nl.pdf"
+    },
+    {
+    "name" : "Introductie - Interactie",
+    "type" : "PDF Document",
+    "icon" : "pdf",
+    "loc" : "assets/manuals/introductie-interactie-nl.pdf"
+    },
+    {
+    "name" : "Introductie - Performance",
+    "type" : "PDF Document",
+    "icon" : "pdf",
+    "loc" : "assets/manuals/introductie-performance-nl.pdf"
+    },
+    {
+    "name" : "Introductie - Rapportage",
+    "type" : "PDF Document",
+    "icon" : "pdf",
+    "loc" : "assets/manuals/introductie-rapportage-nl.pdf"
+    },
+    {
+    "name" : "Introductie - Bereikbaarheid",
+    "type" : "PDF Document",
+    "icon" : "pdf",
+    "loc" : "assets/manuals/introductie-bereikbaarheid-nl.pdf"
+    },
+    {
+    "name" : "Introductie - Beheer",
+    "type" : "PDF Document",
+    "icon" : "pdf",
+    "loc" : "assets/manuals/introductie-beheer-nl.pdf"
+    },
+    {
+    "name" : "Linphone Desktop Installeren",
+    "type" : "PDF Document",
+    "icon" : "pdf",
+    "loc" : "assets/manuals/linphone-desktop-nl.pdf"
+    },
+    {
+    "name" : "Linphone Mobile Installeren",
+    "type" : "PDF Document",
+    "icon" : "pdf",
+    "loc" : "assets/manuals/linphone-mobile-nl.pdf"
+    },
+    {
+    "name" : "Yealink Firmware Update",
+    "type" : "PDF Document",
+    "icon" : "pdf",
+    "loc" : "assets/manuals/firmware-update-yealink-nl.pdf"
+    },
+    {
+    "name" : "Hoe maak je een snelkoppeling op je mobiel",
+    "type" : "PDF Document",
+    "icon" : "pdf",
+    "loc" : "assets/manuals/mobiele-snelkoppeling-nl.pdf"
+    }
+  ]
+}

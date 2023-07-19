@@ -1,0 +1,133 @@
+/**
+ *
+ * Config modal style sheet
+ *
+ * 
+ * @project ContactSuite
+ * @version 1.0
+ * @author Wim Jurriaans
+ * @copyright 2020
+ * @licence MIT
+ *
+ * @date 03-03-2020
+ * @modified
+ * 
+ */
+ 
+@use "./globals" as globals;
+@use "./font";
+
+.config__lookup-list {
+  min-height: 245px; //veelfout van line-height
+  max-height: 245px; //veelfout van line-height
+  overflow-x: hidden;
+  overflow-y: scroll;
+  border: 1px solid globals.$color-gray20;
+  border-top: none;
+  margin-top: 0px;
+  margin-bottom: 10px;
+  &--disabled {
+    position: absolute;
+    height: 245px;
+    width: 100%;
+    opacity: 0.5;
+    background-color: globals.$color-white;
+  }
+  .config__lookup-list-item {
+    height: 35px;
+    line-height: 35px;
+    padding: 0 10px 0 0;
+    background-color: globals.$color-white;
+    color: globals.$color-gray60;
+    font-size: .9em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    &:nth-child(even) {
+      background-color: globals.$color-gray2;
+    }
+    &:before {
+      content: '\F134';
+      position: relative;
+      height: 35px;
+      line-height: 35px;
+      color: globals.$color-availability;
+      width: 30px;
+      @include font.font-icon();
+      text-align: center;
+      margin: 0 5px;
+      font-size: 1em;
+      float: left;
+      visibility: hidden;
+    }
+    &:after {
+      display: none;
+    }
+    &:hover {
+      background-color: globals.$color-gray5;
+      &:before {
+        //visibility: visible;
+      }
+    }
+  }
+  [data-selected='true']:before {
+    visibility: visible;
+  }
+}
+[class^='coll'] {
+  display: inline-block;
+  text-overflow: ellipsis;
+  overflow: hidden; 
+  white-space: nowrap;
+}
+.coll10 {
+  width: calc(10% - 30px);
+}
+.coll20 {
+  width: calc(20% - 30px);
+}
+.coll30 {
+  width: calc(30% - 30px);
+}
+.coll35 {
+  width: calc(35% - 30px);
+}
+.coll40 {
+  width: calc(40% - 30px);
+}
+.coll50 {
+  width: calc(50% - 30px);
+}
+.coll60 {
+  width: calc(60% - 30px);
+}
+.coll65 {
+  width: calc(65% - 30px);
+}
+.coll70 {
+  width: calc(70% - 30px);
+}
+.coll80 {
+  width: calc(80% - 30px);
+}
+
+.config__listheader {
+  width: 100%;
+  margin-top: 0px;
+  border: 1px solid globals.$color-gray20;
+  border-bottom: 1px solid globals.$color-gray5;
+  height: 35px;
+  span {
+    line-height: 35px;
+    padding: 0 10px 0 0;
+    color: globals.$color-gray40;
+    font-size: .9em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  span:first-child {
+    margin-left: 40px;
+    margin-right: -10px;
+  }
+}

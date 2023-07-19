@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="nl">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=460, initial-scale=0.75, user-scalable=yes">
+        <title>ContactSuite</title>
+        <link rel="apple-touch-icon" sizes="57x57" href="/assets/app-icons/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/assets/app-icons/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/assets/app-icons/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/assets/app-icons/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/assets/app-icons/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/assets/app-icons/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/assets/app-icons/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/assets/app-icons/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/app-icons/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/assets/app-icons/android-icon-36x36.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/assets/app-icons/android-icon-48x48.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/assets/app-icons/android-icon-72X72.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/assets/app-icons/android-icon-96x96.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/assets/app-icons/android-icon-144x144.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/assets/app-icons/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/assets/app-icons/android-chrome-192x192.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/assets/app-icons/android-chrome-256x256.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/app-icons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/assets/app-icons/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/app-icons/favicon-16x16.png">
+        <link rel="manifest" href="/assets/app-icons/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/assets/app-icons/ms-icon-70x70.png">
+        <meta name="msapplication-TileImage" content="/assets/app-icons/ms-icon-144x144.png">
+        <meta name="msapplication-TileImage" content="/assets/app-icons/ms-icon-150x150.png">
+        <meta name="msapplication-TileImage" content="/assets/app-icons/ms-icon-310x310.png">
+        <meta name="theme-color" content="#ffffff">
+    </head>
+    <body>
+        <div id="webrtcconstraintsbox"></div>
+        <div id="modalbox"></div>
+        <div id="phonebuttons"></div>
+        <div id="preloader"></div>
+        <div id="note"></div>
+        <div id="internalchat"></div>
+        <div id="sms"></div>
+        <div id="loginfailed"></div>
+        <div id="app"></div>
+    <script type="text/javascript">
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        urlParams.forEach(string => string.toLocaleLowerCase());
+
+        if (urlParams.has('logginglevel')) {
+            IPCCCDebug = true;
+        }
+    </script>
+    <script type="module" src="/src/main.ts"></script>
+    </body>
+</html>

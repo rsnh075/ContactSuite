@@ -1,0 +1,54 @@
+@use './globals' as g;
+@use './functions'  as fn;
+@use './font';
+
+.moreoptionsmenu {
+  position: relative;
+  background-color: g.$color-white;
+  float: left;
+  height: g.$header-height;
+  width: 30px;
+  text-align: center;
+  cursor: pointer;
+  &:hover {
+    background-color: g.$color-gray2;
+    cursor: pointer;
+  }
+  &__icon {
+    line-height: 80px;
+    @include font.font-icon();
+    font-size: 1.6rem;
+    color: g.$color-gray40;
+  }
+  &__customerlist--open {
+    background-color: g.$color-gray10;
+  }
+}
+
+.moreoptionsmenu__selected-customer {
+  position: fixed;
+  top: 80px;
+  right: 0;
+  height: 31px;
+  background-color: g.$color-home;
+  color: g.$color-white;
+  border-radius: 0 0 0 2px;
+  box-shadow: -1px 1px 2px 0 rgba(0,0,0,.1);
+}
+
+.moreoptionsmenu__selected-customer__name {
+  padding: 0 10px;
+  font-size: 18px;
+}
+
+.moreoptionsmenu__selected-customer__icon {
+  display: inline-block;
+  text-align: center;
+  @include font.font-icon();
+  font-size: 1.125rem;
+  line-height: 31px;
+  width: 30px;
+  color: fn.tint(g.$color-home, 85%);
+  background-color: fn.shade(g.$color-home, 15%);
+  cursor: pointer;
+}

@@ -1,0 +1,207 @@
+/**
+ *
+ * Report classes
+ *
+ * 
+ * @project ContactSuite
+ * @version 1.0
+ * @author Erik Rosenhart
+ * @copyright 2017
+ * @licence MIT
+ *
+ * @date 20-12-2018
+ * @modified
+ * 
+ */
+
+ @use "font";
+ @use "globals";
+ @use "functions" as fn;
+ 
+.report-wrapper {
+  position: absolute;
+  margin-left: -50px;
+	top: 1rem;
+	right: 1rem;
+	bottom: 1rem;
+	left: 1rem;
+	&--hidden {
+		visibility: hidden;
+	}
+	&--min {
+		max-width: 975px;
+	}
+	.ic3-reporting-container {
+		margin: 0 auto;
+		max-width: 1160px;
+		border: 1px solid globals.$color-gray10;
+	}
+}
+
+.report-wrapper-home {
+  display: inline-block;
+  width: 902px;
+  height: 310px;
+	.ic3-fixed-layout {
+	  left: 0;
+	  top: 0;
+	}
+	.ic3-reporting-container {
+	  min-width: 320px;
+	}
+}
+
+.reports-home-content {
+    margin-right: auto;
+    margin-left: auto;
+    width: 100%;
+    max-width: 980px;
+    padding: 4rem 2rem 2rem 2rem;
+  }
+
+.reporting-visual {
+	height: 300px;
+  background: url('/assets/images/reporting-visual.svg') no-repeat center center;
+  background-size: contain;
+}
+
+.reporting__message {
+	padding: 4rem 2rem 2rem 2rem;
+}
+
+.reportingbtn {
+	background-color: globals.$color-blue; /* Green */
+  border: none;
+  border-radius: 2rem;
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.2);
+  color: white;
+  padding: 15px 32px;
+  margin: 0.2rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+  cursor: pointer;
+  &:before {
+  	@include font.font-icon();
+    font-size: 1.4rem;
+    margin-right: 7px;
+    vertical-align: -3px;
+    color: white;
+  }
+}
+
+
+.report-filters-wrapper {
+	width: 250px;
+	position: fixed;
+	top: 80px;
+	right: 0;
+	bottom: 0;
+	background-color: globals.$color-white;
+	overflow-y: auto;
+	overflow-x: hidden;
+	z-index: globals.$level-app;
+	border-left: 1px solid globals.$color-gray20;
+	.report-filters__header {
+		position: relative;
+	  display: block;
+	  background-color: transparent;
+	  height: 40px;
+	  margin-bottom: 10px;
+	  line-height: 40px;
+	  color: fn.tint(globals.$color-black, 15%);
+	  @include font.font-normal();
+	  font-size: 1rem;
+	  text-decoration: none;
+	  cursor: pointer;
+		&-content {
+			padding-left: 15px;
+			overflow: hidden;
+		  transition: padding .2s ease-in-out;
+		}
+		&-icon {
+			position: absolute;
+		  top: 51%;
+		  right: -8px;;
+		  transform: translate(-50%, -50%)
+		             rotate(0deg);
+		  @include font.font-icon();
+		  font-size: 2rem;
+		  color: globals.$color-reporting;
+		}
+	}
+	.report-filters__presetbtn {
+		margin-left: -8px;
+	}
+	.report-filters__body {
+		padding: 0 15px;
+	}
+	&--minimized {
+		width: 50px;
+		.report-filters__header-icon {
+      transform: translate(-50%, -50%)
+                 rotate(180deg);
+      &:after {
+      	content: 'Filters';
+		    position: absolute;
+		    transform: rotate(-90deg);
+		    top: -50px;
+		    right: 0;
+		    left: 0;
+		    color: fn.tint(globals.$color-black, 15%);
+		    @include font.font-normal();
+		    font-size: 1rem;
+		  }
+    }
+		.report-filters__header-content,
+		.report-filters__presetbtn,
+		.report-filters__body {
+			height: 0;
+			overflow: hidden;
+		}
+	}
+}
+
+.report-filters-wrapper [class*='js__filtercontainer-'] {
+	padding-bottom: 20px;
+	min-height: 30px;
+}
+
+.report-presets-wrapper {
+	.form-selectfield {
+		width: 130px;
+    float: left;
+    select {
+    	box-shadow: none;
+    }
+	}
+	.button__icon-edit--small,
+	.button__icon-save--small,
+	.button__icon-delete--small {
+		margin-top: 22px;
+		float: left;
+	}
+}
+
+html {
+	font-size: inherit !important;
+}
+
+.ic3t-slider-filter {
+    margin-bottom: 10px;
+}
+
+#mxs-cs-daterange.selectedDate {
+	font-size: 0.75rem;
+}
+.mxs-cs-daterangepicker {
+	.table-condensed>tbody>tr>td,
+	.table-condensed>tbody>tr>th,
+	.table-condensed>tfoot>tr>td,
+	.table-condensed>tfoot>tr>th,
+	.table-condensed>thead>tr>td,
+	.table-condensed>thead>tr>th {
+    padding: 5px;
+	}
+}

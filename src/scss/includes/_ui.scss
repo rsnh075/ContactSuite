@@ -1,0 +1,128 @@
+/**
+ *
+ * IU classes
+ *
+ * 
+ * @project ContactSuite
+ * @version 1.0
+ * @author Wim Jurriaans
+ * @copyright 2017
+ * @licence MIT
+ *
+ * @date 15-06-2020
+ * @modified
+ * 
+ */
+
+@use "globals";
+
+.ui__csl {
+  position: relative;
+  width: 100%;
+  min-height: 160px;
+  padding: 7px 15px 7px 5px;
+  border: none;
+  border-bottom: 1px solid globals.$color-gray35;
+  background-color: rgba(0,0,0,.025);;
+  color: globals.$color-gray60;
+  font-size: .9rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  input:focus {
+    outline: none;
+  }
+}
+
+.ui__csl-label {
+  padding-bottom: 4px;
+  margin-top: 12px;
+  font-size: .7rem;
+  padding-left: 3px;
+  overflow: hidden;
+}
+
+.ui__csl-input {
+  height: 34px;
+  line-height: 34px;
+  margin: 5px;
+  flex: 1;
+  border: none;
+  font-size: 1em;
+  min-width: 50px;
+  background-color: transparent;
+  color: globals.$color-gray60;
+}
+
+.ui__csl-chip {
+  height: 30px;
+  line-height: 30px;
+  margin: 5px 3px;
+  padding: 0 2px 0 15px;
+  border-radius: 17px;
+  background-color: globals.$color-gray10;  
+  font-size: 1em;
+}
+
+.ui__csl-chip-label {
+  float: left;
+}
+
+[contenteditable=true] {
+  outline: none;
+  color: globals.$color-helpcenter;
+}
+
+[contenteditable=false] {
+  
+}
+
+.ui__csl-removebtn {
+  float: left;
+  width: 22px;
+  height: 22px;
+  margin: 4px 4px 4px 6px;
+  border-radius: 50%;
+  background-color: globals.$color-gray40;
+  cursor: pointer;
+  svg {
+    width: 16px;
+    height: 16px;
+    margin-left: 50%;
+    margin-top: 50%;
+    transform: translate(-50%, -50%);
+    fill : globals.$color-white;
+  }
+}
+
+.ui__csl-removeallbtn {
+  //display: none;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 20px;
+  height: 20px;
+  svg {
+    width: 100%;
+    fill: globals.$color-gray30;
+  }
+  &:hover svg {
+    fill: globals.$color-unavailable;
+  }
+}
+
+.ui__csl-copybtn {
+  //display: none;
+  position: absolute;
+  top: 30px;
+  right: 5px;
+  width: 20px;
+  height: 20px;
+  svg {
+    width: 100%;
+    fill: globals.$color-gray30;
+  }
+  &:hover svg {
+    fill: globals.$color-green;
+  }
+}

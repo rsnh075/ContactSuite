@@ -1,0 +1,576 @@
+/**
+ *
+ * Dialog style sheet
+ *
+ * 
+ * @project ContactSuite
+ * @version 1.0
+ * @author Wim Jurriaans
+ * @copyright 2018
+ * @licence MIT
+ *
+ * @date 14-01-2018
+ * @modified
+ * 
+ */
+
+ @use "font";
+ @use "globals";
+ @use "mixins";
+ @use "functions" as fn;
+
+.dialog__modal {
+  position: absolute;
+  opacity: 0;
+  z-index: globals.$level-message;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0,0,0,.2);
+  transition: opacity .2s ease-in-out;
+  pointer-events: none;
+  overflow: hidden;
+  &--open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  &--second {
+    z-index: 6010;
+  }
+  &--fixed {
+    position: fixed;
+  }
+}
+
+.dialog__window {
+  position: absolute;
+  background-color: globals.$color-white;
+  left: 50%;
+  top: -150%;
+  width: 96%;
+  max-width: 1044px;
+  height: auto;
+  z-index: 10;
+  box-shadow: 0 0 25px 0 rgba(0,0,0,.2);
+  transform: translate(-50%,-50%);
+  transition: top .5s ease-in-out;
+  transform-origin: 0 50%;
+  &--open {
+    top: 40px;
+    transform: translate(-50%, 0);
+  }
+  &-alert {
+    top: 50%;
+    width: 450px;
+  }
+  &-icon {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    display: block;
+    margin: 0 auto;
+  }
+  &-icon:before {
+    content: '\F120';
+    position: absolute;
+    font-family: 'Material Design Icons';
+    font-weight: normal;
+    font-style: normal;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 32px;
+    height: 50px;
+    line-height: 48px;
+    text-indent: -10px;
+    overflow: hidden;
+    color: fn.tint(globals.$color-interaction, 50%);
+    font-size: 54px;
+  }
+  &-number {
+    display: block;
+    flex: 1 0 60%;
+    padding-left: 70px;
+    @include font.font-bold();
+    color: globals.$color-gray80;
+    font-size: 1rem;
+    @include mixins.chopToLongText(100%);
+    padding-bottom: 5px;
+  }
+  &-time {
+    @include font.font-bold();
+    font-size: 0.9rem;
+    display: block;
+    flex: 0 1 40%;
+    text-align: right;
+    padding-bottom: 5px;
+    color: globals.$color-secondary;
+  }
+  &-name {
+    display: block;
+    flex: 0 1 100%;
+    padding-left: 70px;
+    color: globals.$color-gray60;
+    font-size: 0.9rem;
+    @include mixins.chopToLongText(100%);
+  }
+  &--newrole {
+    width: 450px; 
+  }
+  &--w400 {
+    max-width: 400px; 
+  }
+  &--w500 {
+    max-width: 500px; 
+  }
+  &--w680 {
+    max-width: 680px; 
+  }
+  &--prompt {
+    top: 30%;
+    width: 400px;
+  }
+}
+
+.dialog__window-header,
+.dialog__window-body,
+.dialog__window-footer {
+  position: relative;
+  display: block;
+  margin: 0 1.5rem;
+  padding: 1rem 0.5rem;
+  width: calc(100% - 3rem);
+  float: left;
+}
+
+.dialog__window-header {
+  height: 45px;
+  width: 100%;
+  color: globals.$color-gray50;
+  background-color: globals.$color-gray10;
+  margin: 0;
+  padding-left: 1.5rem;
+  padding-right: calc(45px + 1.5rem);
+  span {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  &--important {
+    color: globals.$color-unavailable;
+    @include font.font-bold();
+  }
+  &--transparent {
+    background-color: transparent;
+  }
+}
+
+.dialog__window-body {
+  padding: .5rem .5rem 1rem .5rem;
+  margin-left: -.25rem;
+  width: calc(100% + .5rem);
+  p {
+    padding: 1rem 2rem .5rem 2rem;
+    text-align: center;
+  }
+  &--roles {
+    h2,
+    p {
+      text-align: left;
+      color: globals.$color-gray50;
+      @include font.font-light();
+    }
+    h2 {
+      font-size: 1.1rem;
+    }
+    p {
+       padding: .2rem 0;
+       font-size: .8rem;
+    }
+  }
+  &--message {
+    margin-left: 0;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    p {
+      text-align: left;
+      color: globals.$color-gray50;
+      @include font.font-light();
+      padding: .2rem 0;
+      font-size: .9rem;
+    }
+  }
+  
+}
+
+.dialog__window-body-list {
+  padding: 0 2rem;
+  list-style-type: none;
+  text-align: center;
+  li {
+    display: inline-block;
+    &:not(:last-child):after {
+      content: ',';
+      margin-right: 4px;
+    }
+  }
+}
+
+.dialog__fieldsetheader {
+  margin: 0.5rem 1.5rem;
+  width: auto;
+  height: 35px;
+  line-height: 40px;
+  font-size: 1.1rem;
+  color: globals.$color-gray40;
+  border-bottom: 1px solid globals.$color-gray40;
+  @include font.font-bold();
+}
+
+.dialog__JSONHeader,
+.dialog__LOGHeader {
+  padding: 0 1.5rem;
+  width: 100%;
+  h2 {
+    font-size: 1.2rem;
+    padding: 10px 0;
+    color: globals.$color-unavailable;
+    @include font.font-bold();
+  }
+  div {
+    width: 50%;
+    float: left;
+    line-height: 22px;
+    &:nth-of-type(odd) {
+      span:nth-of-type(even) {
+        padding-right: 10px;
+      }
+    }
+  }
+  span {
+    float: left;
+    &:nth-of-type(odd) {
+      width: 25%;
+    }
+    &:nth-of-type(even) {
+      width: 75%;
+    }
+    @extend .typo-message--bodyheader !optional;
+  }
+}
+
+.dialog__LOGHeader {
+  padding: 0 1.1rem;
+  div {
+    width: 100%;
+    color: globals.$color-gray60;
+    font-size: 0.8rem;
+    span:first-of-type {
+      @include font.font-bold();
+      padding-right: 10px;
+    }
+    span:last-of-type {
+      @include font.font-normal();
+    }
+  }
+  span {
+    white-space: initial;
+    user-select: text;
+  }
+  .sloglink {
+    display: inline-block;
+    color: globals.$color-primary;
+    text-decoration: underline;
+    font-size: 0.8rem;
+  }
+
+  .sloglinkdwnld {
+    position: relative;
+    display: inline-block;
+    width: 31px;
+    height: 31px;
+    line-height: 31px;
+    text-decoration: none;
+    margin: 4px 2px 0 8px;
+    text-align: center;
+    font-family: 'Material Design Icons';
+    font-size: 1.2em;
+    color: globals.$color-gray40;
+    color: globals.$color-gray30;
+    cursor: pointer;
+    background-color: transparent;
+    border-radius: 50%;
+    user-select: none;
+
+
+    &:hover {
+      color: globals.$color-white;
+      background-color: globals.$color-secondary;
+    }
+  }
+}
+
+.dialog__JSON {
+  max-height: calc(100vh - 350px);
+  font-size: .8rem;
+  overflow: auto;
+  margin-top: 15px;
+}
+
+.dialog__LOG {
+  max-height: calc(100vh - 350px);
+  font-size: .8rem;
+  overflow: auto;
+  margin-top: 15px;
+  padding-bottom: 15px;
+  div {
+    width: 100%;
+    color: globals.$color-gray60;
+    font-size: 0.8rem;
+    line-height: initial;
+    span:first-of-type {
+      @include font.font-bold();
+      padding-right: 10px;
+    }
+    span:last-of-type {
+      @include font.font-normal();
+    }
+  }
+  span {
+    white-space: initial;
+    user-select: text;
+  }
+}
+
+.dialog__window-footer {
+  padding: 1rem 0 1.5rem 0rem;
+  text-align: right;
+  margin-right: -5px;
+  border-top: 1px solid globals.$color-gray10;
+  .dialog__window-nav {
+    background-color: globals.$color-gray35;
+  }
+  .dialog__window-ok,
+  .dialog__window-save,
+  .dialog__window-dontsave,
+  .dialog__window-cancel {
+    margin: 10px 5px;
+  }
+  .dialog__window-cancel {
+    // margin-right: 0;
+    background-color: globals.$color-gray25;
+    &:hover {
+      background-color: globals.$color-gray35;
+    } 
+  }
+  .dialog__window-button--right {
+    float: left;
+    margin-left: -20px;
+  }
+  &--confirm {
+    border-top: none;
+    .dialog__window-ok,
+    .dialog__window-save,
+    .dialog__window-dontsave,
+    .dialog__window-cancel {
+      background-color: transparent;
+      color: globals.$color-gray50;
+      box-shadow: none;
+      &:hover {
+        color: globals.$color-gray80;
+        background-color: transparent;
+      } 
+    }
+    .dialog__window-ok,
+    .dialog__window-save {
+      color: globals.$color-unavailable;
+      &:hover {
+        color: fn.tint(globals.$color-unavailable, 50%);
+      }
+      &--disabled {
+        opacity: .2;
+        &:hover {
+          color: globals.$color-unavailable;
+        }
+      } 
+    }
+  }
+  &--message {
+    border-top: none;
+    .dialog__window-accept {
+      background-color: globals.$color-secondary;
+      &:hover {
+        background-color: globals.$color-secondary;
+      }
+    }
+    .dialog__window-cancel {
+      background-color: globals.$color-unavailable;
+      &:hover {
+        background-color: globals.$color-unavailable;
+      }
+    }
+  }
+}
+
+.dialog__window-divider {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 1px;
+  border: none;
+  background-color: globals.$color-gray10;
+}
+
+.dialog__window-close {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 45px;
+  height: 45px;
+  transform: translateY(-50%);
+  display: block;
+  z-index: 10001;
+  cursor: pointer;
+  span {
+    content: "";
+    position: absolute;
+    background-color: globals.$color-gray25;
+    width: 60%;
+    height: 2px;
+    border-radius: 2px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+               rotate(45deg);
+    &:nth-child(2) {
+      transform: translate(-50%, -50%)
+                 rotate(-45deg);
+    }
+  }
+}
+
+.dialog__window-help {
+  position: absolute;
+  top: 50%;
+  right: 40px;
+  width: 45px;
+  height: 45px;
+  transform: translateY(-50%);
+  display: block;
+  z-index: 10001;
+  cursor: pointer;
+  color: globals.$color-help;
+  font-size: 1.4rem;
+  line-height: 45px;
+  text-align: center;
+  @include font.font-icon();
+  &--active {
+    color: globals.$color-primary;
+  }
+}
+
+.dialog__window-body {
+  .form-selectfield,
+  .form-textfield,
+  .form-button__secondary--add {
+    padding-bottom: 5px;
+
+  }
+  .form-textfield input,
+  .form-selectfield select {
+    margin-top: 10px;
+  }
+  .form-button__secondary--add {
+    margin-top: 0px;
+    padding-bottom: 0;
+  }
+  .grid-row {
+    padding: 0;
+  }
+}
+
+.dialog__window-body--scroll {
+  width: calc(100% - 2rem);
+  margin: 0 1rem;
+  height: 110px;
+  max-height: 110px;
+  overflow-y: scroll;
+  background-color: globals.$color-gray5;
+  border: 1px solid globals.$color-gray10;
+  p {
+    color: globals.$color-gray60;
+    padding: .5rem;
+    text-align: left;
+    line-height: 1.4;
+    font-size: .9rem;
+  }
+}
+
+.dialog--shake {
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@keyframes shake {
+  10%, 90% {
+    left: calc(50% - 1px);
+  }
+  
+  20%, 80% {
+    left: calc(50% - 3px);
+  }
+
+  30%, 50%, 70% {
+    left: calc(50% - 6px);
+  }
+
+  40%, 60% {
+    left: calc(50% + 6px);
+  }
+}
+
+.dialog__hr {
+  position: relative;
+  border: 0;
+  border-bottom: 1px solid globals.$color-gray30;
+  width: calc(100% - 3rem);
+  padding: .5rem 0;
+  margin: .5rem 1.5rem .8rem 1.5rem;
+  overflow: visible;
+  &--label {
+    &:before {
+      content: attr(data-label);
+      position: absolute;
+      top: 6px;
+      font-size: .8rem;
+      color: globals.$color-gray50;
+      background-color: globals.$color-white;
+      font-size: .9rem;
+      padding: 0 1rem 0 0;
+      z-index: 10;
+    }
+  }
+}
+
+.dialog__model--fixed-window-large {
+  .dialog__window {
+    position: relative;
+    min-height: 600px;
+    float: left;
+    min-width: 880px;
+    .dialog__window-body {
+      float: left;
+      margin-bottom: 2rem;
+    }
+    .dialog__window-footer {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+    }
+  }
+}

@@ -1,0 +1,64 @@
+/**
+ *
+ * Breackpoint indicator
+ *
+ * ONLY FOR DEFELOPMENT!
+ *
+ * @project ContactSuite
+ * @version 1.0
+ * @author Wim Jurriaans
+ * @copyright 2017
+ * @licence MIT
+ *
+ * @date 19-09-2017
+ * @modified
+ *
+ */
+
+ @use "globals" as g;
+
+body:after {
+	content: "< EXTRA SMALL";
+	left: 0;
+	position: fixed;
+	top: 0;
+	width: auto;
+	display: block;
+	background-color: rgba(0, 0, 0, .3);
+	color: globals.$color-white;
+	padding: 4px 8px 4px 8px;
+	z-index: 8000000;
+	font-size: 12px;
+	border-radius: 0 0 5px 0;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+@media #{g.$media_XS} {
+	body:after {
+		content: "EXTRA SMALL";
+	}
+}
+
+@media #{g.$media_S} {
+	body:after {
+		content: "SMALL";
+	}
+}
+
+@media #{g.$media_M} {
+	body:after {
+		content: "MEDIUM";
+	}
+}
+
+@media #{g.$media_L} {
+	body:after {
+		content: "LARGE";
+	}
+}
+
+@media #{g.$media_XL} {
+	body:after {
+		content: "EXTRA LARGE";
+	}
+}

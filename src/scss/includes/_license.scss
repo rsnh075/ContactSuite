@@ -1,0 +1,301 @@
+/**
+ *
+ * Lecense classes
+ *
+ * 
+ * @project ContactSuite
+ * @version 1.0
+ * @author Wim Jurriaans
+ * @copyright 2017
+ * @licence MIT
+ *
+ * @date 10-01-2019
+ * @modified
+ * 
+ */
+
+@use "font";
+@use "globals";
+@use "mixins";
+
+.license__icon,
+.license__content,
+.license__toggle {
+  display: block;
+  float: left;
+}
+
+.license__icon {
+  position: relative;
+  width: 96px;
+  height: 96px;
+}
+
+.license__content {
+  width: calc(100% - 192px);
+}
+
+.license__toggle {
+  width: 96px;
+  .form-togglefield {
+    width: 40px;
+    margin: 24px auto 0 auto;
+  }
+}
+
+.license__name {
+  color: globals.$color-gray60;
+  font-size: 1.2rem;
+}
+
+.license__price {
+  @include font.font-light();
+  color: globals.$color-gray40;
+  font-size: .7rem;
+  padding-left: 20px;
+}
+
+.license__shortdescription {
+  padding: .5rem 0 0 0;
+  color: globals.$color-gray60;
+  font-size: .8rem;
+}
+
+.license__readmore {
+  width: 100%;
+  font-size: .7rem;
+  text-align: right;
+  padding-top: 20px;
+  float: left;
+  a {
+    color: globals.$color-darkblue;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+.license__longdescription {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .3s ease-in, padding .3s ease-in-out;
+  &--open {
+    height: auto;
+    padding-top: 0;
+    padding-bottom: 1rem;
+  }
+  ol {
+    background-color: globals.$color-gray5;
+    font-size: .85rem;
+    float: left;
+    width: 100%;
+    padding: 20px 20px;
+  }
+  div {
+    padding: 0 0 1rem 0;
+    color: globals.$color-gray60;
+    font-size: .8rem;
+  }
+}
+
+.license__longdescription-line {
+  float: left;
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  span {
+    display: block;
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    color: globals.$color-gray80;
+    font-size: 14px;
+    &:nth-child(1) {
+      width: 8px;
+      height: 8px;
+      margin: 10px 10px;
+      border-radius: 50%;
+      background-color: globals.$color-gray50;
+    }
+    &:nth-child(2) {
+      width: calc(35% - 30px);
+      font-weight: bold;
+      @include mixins.chopToLongText(calc(35% - 30px));
+    }
+    &:nth-child(3) {
+      width: 65%;
+      font-size: 10px;
+      color: globals.$color-gray60;
+      @include mixins.chopToLongText(65%);
+    }
+  }
+}
+
+.dot-redTheme {
+  background-color: #E7332A !important;
+}
+.dot-yellowTheme {
+  background-color: #FCEA10 !important;
+}
+.dot-orangeTheme {
+  background-color: #F39200 !important;
+}
+.dot-blueTheme {
+  background-color: #009FE3 !important;
+}
+.dot-greenTheme {
+  background-color: #3AAA35 !important;
+}
+.dot-purpleTheme {
+  background-color: #662383 !important;
+}
+.dot-bronseTheme {
+  background-color: #A48A7A !important;
+}
+.dot-pinkTheme {
+  background-color: #E5007D !important;
+}
+
+.license-list-wrapper {
+  min-height: 320px;
+  max-height: calc(100vh - 380px);
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  &--border-right {
+    border-right: 1px solid globals.$color-gray10;
+  }
+}
+
+.license-list__item {
+  position: relative;
+  width: calc(100% - 12px);
+  height: 40px;
+  line-height: 40px;
+  label {
+    position: relative;
+    float: left;
+    width: 30px;
+    height: 40px;
+    display: block;
+    &:before {
+      content: "\F12E";
+      position: absolute;
+      width: 30px;
+      height: 40px;
+      line-height: 38px;
+      display: inline-block;
+      margin-right: 10px;
+      left: 2px;
+      @include font.font-icon();
+      font-size: 22px;  
+      color: globals.$color-gray10;
+    }
+  }
+  input[type='checkbox'] {
+    float: left;
+    position: absolute;
+    left: -10000px;
+    z-index: 10;
+    &:checked + label:before {
+      content: "\F132";  
+      color: globals.$color-secondary;
+    }
+  }
+  button {
+    height: 40px;
+    line-height: 40px;
+    float: left;
+    display: block;
+    background-color: transparent;
+    text-align: left;
+    color: globals.$color-gray60;
+    @include mixins.chopToLongText(calc(100% - 40px));
+    cursor: pointer;
+  }
+  &:after {
+    content: "\F142";
+    position: absolute;
+    right: -3px;
+    height: 40px;
+    line-height: 40px;
+    @include font.font-icon();
+    font-size: 22px;  
+    color: globals.$color-gray10;
+  }
+  &--active {
+    background-color: globals.$color-gray2;
+    &:after {
+      color: globals.$color-secondary;
+    }
+  }
+}
+
+.license-list-wrapper_assetdetails {
+  padding: .5rem;
+  width: calc(100% + 1rem);
+}
+
+.license-list-wrapper_assetdetails-header {
+  font-size: 1.2rem;
+  padding-bottom: 0.3rem;
+  margin-bottom: 0.5rem;
+  width: 100%;
+  border-bottom: 1px solid globals.$color-gray10;
+}
+
+.license-list-wrapper_assetdetail {
+  position: relative;
+  width: calc(100% - 12px);
+  height: auto;
+  padding: 5px 0;
+  float: left;
+  display: block;
+  label {
+    position: relative;
+    float: left;
+    width: 100%;
+    height: auto;
+    padding-left: 25px;
+    display: block;
+    float: left;
+    &:before {
+      content: "\F12E";
+      position: absolute;
+      width: 25px;
+      height: 40px;
+      display: inline-block;
+      margin-right: 10px;
+      @include font.font-icon();
+      font-size: 22px;  
+      color: globals.$color-gray10;
+      left: 0;
+    }
+  }
+  input[type='checkbox'] {
+    float: left;
+    position: absolute;
+    left: -10000px;
+    z-index: 10;
+    &:checked + label:before {
+      content: "\F132";  
+      color: globals.$color-secondary;
+    }
+  }
+  span {
+    width: calc(100% - 30px);
+    display: block;
+    float: left;
+    padding: 3px 0;
+  }
+}
+
+.license-list-wrapper_assetdetail-name {
+  font-size: .9rem;
+  color: globals.$color-gray60;
+}
+
+.license-list-wrapper_assetdetail-description {
+  font-size: .7rem;
+  color: globals.$color-gray40;
+  padding: 0;
+}

@@ -1,0 +1,134 @@
+/**
+ *
+ * Custom SelectBox classes
+ *
+ * 
+ * @project ContactSuite
+ * @version 1.0
+ * @author Wim Jurriaans
+ * @copyright 2020
+ * @licence MIT
+ *
+ * @date 03-02-2020
+ * @modified
+ * 
+ */
+
+@use "globals";
+@use "font";
+@use "functions" as fn;
+
+.selectbox__wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.selectbox__button {
+  position: absolute;
+  width: 30px;
+  height: 40px;
+  top: 12px;
+  right: 0;
+  cursor: pointer;
+  &:before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: calc(50% + 2px);
+    left: calc(100% - 20px);
+    border: 6px solid transparent;
+    border-top-color: globals.$color-gray35;
+    z-index: 2;
+    pointer-events:none;
+    user-select: none;
+  }
+}
+
+.selectbox__selected {
+  position: relative;
+  display: block;
+  float: left;
+  border-bottom: 1px solid globals.$color-gray35;
+  background-color: transparent;
+  height: 40px;
+  line-height: 40px;
+  width: 100%;
+  padding: 5px 30px 0 3px;
+  color: globals.$color-gray60;
+  font-size: 1rem;
+  margin-top: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: default;
+  user-select: none;
+  span {
+    width: 30px;
+    height: 40px;
+    text-align: left;
+    margin-right: 5px;
+    @include font.font-icon();
+    font-size: .9em;
+    color: globals.$color-gray35;
+    float: left;
+  }
+}
+
+.selectbox__opionlist {
+  position: absolute;
+  top: 52px;
+  left: 0;
+  width: 100%; 
+  height: auto;
+  min-height: 120px;
+  overflow: hidden;
+  overflow-y: auto;
+  list-style-type: none;
+  padding: 5px;
+  background-color: globals.$color-white;
+  border: 1px solid globals.$color-gray20;
+  z-index: 1000;
+  display: none;   
+  &--open {
+    display: block;
+  }
+}
+
+.selectbox__opion {
+  height: 35px;
+  line-height: 35px;
+  width: calc(100% + 15px);
+  margin-left: -5px;
+  padding-right: 10px;
+  padding-left: 10px;
+  color: globals.$color-gray60;
+  text-overflow: ellipsis;
+  overflow: hidden; 
+  width: calc(100% + 15px); 
+  white-space: nowrap;
+  cursor: default;
+  span {
+    width: 30px;
+    height: 40px;
+    text-align: left;
+    margin-right: 5px;
+    @include font.font-icon();
+    font-size: .9em;
+    color: globals.$color-gray35;
+    float: left;
+  }
+  &:hover {
+    background-color: globals.$color-gray10;
+    color: globals.$color-gray60;
+  }
+  &--selected {
+    background-color: fn.tint(globals.$color-help, 50%);
+    color: globals.$color-white;
+    span {
+      color: globals.$color-white;
+    }
+  }
+
+}
+ 

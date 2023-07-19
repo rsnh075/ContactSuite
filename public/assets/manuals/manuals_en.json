@@ -1,0 +1,64 @@
+{
+  "manuals" : [
+    {
+    "name" : "Introduction - Home",
+    "type" : "PDF Document",
+    "icon" : "pdf",
+    "loc" : "assets/manuals/introduction-home-en.pdf"
+    },
+    {
+    "name" : "Introduction - Interaction",
+    "type" : "PDF Document",
+    "icon" : "pdf",
+    "loc" : "assets/manuals/introduction-interaction-en.pdf"
+    },
+    {
+    "name" : "Introduction - Performance",
+    "type" : "PDF Document",
+    "icon" : "pdf",
+    "loc" : "assets/manuals/introduction-performance-en.pdf"
+    },
+    {
+    "name" : "Introduction - Reports",
+    "type" : "PDF Document",
+    "icon" : "pdf",
+    "loc" : "assets/manuals/introduction-reports-en.pdf"
+    },
+    {
+    "name" : "Introduction - Availability",
+    "type" : "PDF Document",
+    "icon" : "pdf",
+    "loc" : "assets/manuals/introduction-availability-en.pdf"
+    },
+    {
+    "name" : "Introduction - Settings",
+    "type" : "PDF Document",
+    "icon" : "pdf",
+    "loc" : "assets/manuals/introduction-settings-en.pdf"
+    },
+    {
+    "name" : "Linphone Desktop Setup",
+    "type" : "PDF Document",
+    "icon" : "pdf",
+    "loc" : "assets/manuals/linphone-desktop-en.pdf"
+    },
+    {
+    "name" : "Linphone Mobile Setup",
+    "type" : "PDF Document",
+    "icon" : "pdf",
+    "loc" : "assets/manuals/linphone-mobile-en.pdf"
+    },
+    {
+    "name" : "Yealink Firmware Update",
+    "type" : "PDF Document",
+    "icon" : "pdf",
+    "loc" : "assets/manuals/firmware-update-yealink-en.pdf"
+    },
+    {
+    "name" : "How to create a shortcut on your mobile",
+    "type" : "PDF Document",
+    "icon" : "pdf",
+    "loc" : "assets/manuals/mobile-shortcut-en.pdf"
+    }
+  ]
+}
