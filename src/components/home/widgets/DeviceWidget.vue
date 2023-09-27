@@ -47,7 +47,6 @@ const changeDevice = (evt:Event):void => {
 		useDeviceRequirementsFn.validateDevice(_selObj[0])
 		.then((enabled) => {
 			if(enabled) {
-                console.log('<-', _selObj[0]);
 				setDeviceFn.setDevice(_selObj[0]);
 			} else {
 				//setPreviousdeviceName

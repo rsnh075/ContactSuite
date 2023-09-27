@@ -6,11 +6,14 @@ export default {
         Account,
         AccountGroup,
         PhoneInTalk,
+        Phone,
         Archive,
         Flag,
         Play,
         Pause,
-        CloudDownload
+        CloudDownload,
+        Headset,
+        Delete
     }
 }
 </script>
@@ -40,7 +43,9 @@ import {
         Play,
         Pause,
         CloudDownload,
-		CloseCircle
+        Phone,
+        Headset,
+        Delete
         } from 'mdue';
 import { IPCCCData } from '../../../ipccc/js/data';
 import { durationTime } from './../../../use/dateFunctions';
@@ -60,9 +65,10 @@ const props = defineProps({
 const store:object | any                = useStore(),
         selectedRecording               = inject('selectedRecording'),
         setSelectedRecording            = inject<Function>('setSelectedRecording'),
-        markSelectedRecordingUnread     = inject('markSelectedRecordingUnread'),
+        markSelectedRecordingUnread     = inject<Function>('markSelectedRecordingUnread'),
         markSelectedRecordingRead       = inject<Function>('markSelectedRecordingRead'),
-        archiveSelectedRecording        = inject('archiveSelectedRecording'),
+        callOut                         = inject<Function>('callOut'),
+        deleteSelectedRecording        = inject<Function>('deleteSelectedRecording'),
         toggleLoader:Function           = inject('toggleLoader'),
         setActiveBaseComponent:Function = inject('setActiveBaseComponent'),
         audioIsLoaded                   = ref(false),
@@ -130,6 +136,7 @@ const playSoundOnPhone = () => {
     msgTxt.value = store.state.settings.voicemailinbox.playonphone;
     IPCCCData.RequestData('PlayRecording', { Id: selectedRecording.value.Id, PlayByPhone: true })
     .catch(err => console.log(err));
+    markSelectedRecordingRead();
 }
 
 const playSound = () => {
@@ -177,7 +184,12 @@ const loadAudio = (aFile) => {
         });
         audioPlayer.value.addEventListener('error', (error) => {
             isPlaying.value               = false;
-            console.log('Error: ', error);
+            if (audioPlayer.value.error.code === 4) {
+                msgTxt.value = 'File not found';
+            } else {
+                msgTxt.value = 'Error loading file';
+                console.log('Error: ', error);
+            }
         });
         audioPlayer.value.addEventListener('ended', () => {
             isPlaying.value               = false;
@@ -266,7 +278,7 @@ const windowStatus = computed(() => {
 });
 
 const playbuttonIcon = computed(() => {
-    return (audioIsLoaded.value) ? (isPlaying.value ? 'Pause' : 'Play') : 'CloudDownload';
+    return (audioIsLoaded.value) ? (isPlaying.value ? 'Pause' : 'Play') : 'Play';
 });
 
 const iconType = computed(() => {
@@ -278,6 +290,19 @@ const closeRecording = () => {
     setActiveBaseComponent(0);
     setSelectedRecording(-1);
 };
+
+const hasCallBackNumber = computed(() => (
+    selectedRecording.value &&
+    selectedRecording.value.fullName &&
+    selectedRecording.value.fullName.length > 0 &&
+    /(^[0-9+]+$)/.test(selectedRecording.value.fullName))
+)
+
+const callBack = () => {
+    if(store.state.commands.Callout && store.state.statusId != 4 && hasCallBackNumber) {
+        callOut(selectedRecording.value.fullName);
+    }
+}
 
 onMounted(() => {
     loadingTxt.value = store.state.settings.voicemailinbox.loadingtext;
@@ -304,17 +329,21 @@ onMounted(() => {
                     <div class="recording__info-top-row--100">{{ selectedRecording.dateTime }}</div>
                 </div>
                 <div class="recording__cta-wrapper">
+                    <div :class="['recording__cta--callback', {'recording__cta--callback-disabled' : !hasCallBackNumber}]" @click="callBack()">
+                        <span class="recording__cta--circle"><Phone /></span>
+                        <span class="recording__cta--txt">{{ store.state.settings.voicemailinbox.callback }}</span>
+                    </div>
                     <div class="recording__cta--playphone" @click="playSoundOnPhone">
-                        <span class="recording__cta--circle"><PhoneInTalk /></span>
+                        <span class="recording__cta--circle"><Headset /></span>
                         <span class="recording__cta--txt">{{ store.state.settings.voicemailinbox.playphone }}</span>
                     </div>
                     <div :class="['recording__cta--unread', {'recording__cta--unread-isoff' : !selectedRecording.IsRead}]" @click="markSelectedRecordingUnread()">
                         <span class="recording__cta--circle"><Flag /></span>
                         <span class="recording__cta--txt">{{ store.state.settings.voicemailinbox.markunread }}</span>
                     </div>
-                    <div :class="['recording__cta--archive', {'recording__cta--archive-isoff' : !selectedRecording.IsRead}]" @click="archiveSelectedRecording()">
-                        <span class="recording__cta--circle"><Archive /></span>
-                        <span class="recording__cta--txt">{{ store.state.settings.voicemailinbox.archivelabel }}</span>
+                    <div :class="['recording__cta--archive', {'recording__cta--archive-isoff' : !selectedRecording.IsRead}]" @click="deleteSelectedRecording()">
+                        <span class="recording__cta--circle"><Delete /></span>
+                        <span class="recording__cta--txt">{{ store.state.settings.voicemailinbox.deletelabel }}</span>
                     </div>
                 </div>
             </div>
@@ -460,7 +489,7 @@ onMounted(() => {
 
 .recording__info-top {
     float: left;
-    width: 400px;
+    width: 320px;
     height: 130px;
     min-height: 130px;
     color: globals.$color-gray60;
@@ -482,12 +511,12 @@ onMounted(() => {
 
 .recording__cta-wrapper {
     float: left;
-    width: 220px;
+    width: 300px;
     height: 130px;
     min-height: 130px;
     div {
         position: relative;
-        width: 33.333%;
+        width: 25%;
         height: 140px;
         min-height: 140px;
         display: inline-block;
@@ -518,18 +547,20 @@ onMounted(() => {
         @include mixins.chopToLongText(100%);
         text-align: center;
     }
-    a:hover:not(.recording__cta--unread-isoff, .recording__cta--archive-isoff) .recording__cta--circle {
+    a:hover:not(.recording__cta--unread-isoff, .recording__cta--archive-isoff, .recording__cta--callback-disabled) .recording__cta--circle {
         background-color: functions.tint(globals.$color-interaction, 20%);
     }
     .recording__cta--unread svg,
     .recording__cta--archive svg,
+    .recording__cta--callback svg,
     .recording__cta--playphone svg {
         color: globals.$color-white;
         font-size: 1.2rem;
         vertical-align: middle;
     }
     .recording__cta--unread-isoff,
-    .recording__cta--archive-isoff {
+    .recording__cta--archive-isoff,
+    .recording__cta--callback-disabled {
         cursor: default;
         .recording__cta--circle {
             background-color: globals.$color-gray20;

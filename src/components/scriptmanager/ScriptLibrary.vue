@@ -4,7 +4,6 @@ import ScriptManager from './Scriptmanager.vue';
 import ConfirmBox from '../dialogs/Confirm-box.vue';
 import {dynamicSort} from '@/use/sortFunctions';
 import {calculateMaxHeight, scrollTo} from '@/use/helperFunctions';
-import VirtualListViewer    from './../uielements/VirtualListViewer.vue';
 import {IPCCCConfigurator} from '@/ipccc/js/configurator';
 import BoxProps, {ModalType} from '../../types/BoxProps';
 import {useStore} from 'vuex';
@@ -55,6 +54,7 @@ const functionList = ref([]);
 const showDialog = ref(false);
 const dialogText = ref('');
 const pasteBoard = ref([]);
+const copyOfMainFlow = ref([]);
 const contextMenu = ref();
 const listContentWrapper = ref();
 const scriptStore = useScriptBuilderStore();
@@ -69,7 +69,6 @@ let mutationAction = 'save';
 let flowLineToEdit = null;
 
 const updateScript = (moduleId, insertAfter, atExitType, exitTypeAlt) => {
-    // console.log('onaddmodule modnr', insertAfter);
 
     if (moduleId < 0) {
         placeRedirectOnExit({
@@ -129,7 +128,6 @@ const updateScript = (moduleId, insertAfter, atExitType, exitTypeAlt) => {
 provide('onaddmodule', updateScript);
 
 const removeModules = moduleNumber => {
-    // console.log('onremovemodule modnr', moduleNumber);
     let _modulesToRemove = [],
         _indexIndexFlat =
             selectedScript.value.ScriptFlow.Mainflow.findIndex(
@@ -271,8 +269,11 @@ const handleCutModule = mNr => {
     _listToCut = _modulesToCut.concat(
         getTreePath(_moduleToCut, [])
     );
+    console.log('_moduleToCut', _moduleToCut);
+    console.log('_listToCut', _listToCut);
 
     if (_indexIndexFlat !== 1) {
+        // CUT IS AFTER FIRST MODULE
         let _resultScript = [],
             _parentNumber = _moduleToCut.ParentModule,
             _parentModuleIndex =
@@ -313,7 +314,15 @@ const handleCutModule = mNr => {
                     key.indexOf('Exit') !== -1 &&
                     _listToCut.indexOf(Math.abs(value)) !== -1
                 ) {
-                    module[key] = REDIRECT_EXIT;
+                    if (
+                        scriptStore.insertModuleActive &&
+                        value < 0
+                    ) {
+                        // DO NOTHING ON REDIRECT EXIT WHEN INSERTING MODULE;
+                        // ONPASTE MODULE WILL HANDLE THIS
+                    } else {
+                        module[key] = REDIRECT_EXIT;
+                    }
                 }
             }
         });
@@ -331,6 +340,7 @@ const handleCutModule = mNr => {
 
         selectedScript.value.ScriptFlow.Mainflow = [..._resultScript];
     } else {
+        // CUT IS FIRST MODULE
         selectedScript.value.ScriptFlow.Mainflow.shift();
         pasteBoard.value = [];
         pasteBoard.value = JSON.parse(
@@ -341,7 +351,6 @@ const handleCutModule = mNr => {
 }
 
 const onCutModule = modnr => {
-    // console.log('onCutModule modnr', modnr);
     modnr !== -1 && handleCutModule(modnr);
 }
 provide('oncutmodule', onCutModule);
@@ -402,6 +411,11 @@ const handlePasteModule = (modnr, exit, exitalt) => {
                 JSON.parse(JSON.stringify(pasteBoard.value))
             );
     } else {
+        if (scriptStore.insertModuleActive) {
+            //REINDEX REDIRECTS IN MAINFLOW THAT REDIRECT TO MODULES IN PASTEBOARD
+            copyOfMainFlow.value = [];
+            copyOfMainFlow.value = [...selectedScript.value.ScriptFlow.Mainflow];
+        }
         //REINDEX PASTEBOARD
         reIndexPasteBoard();
         //GET PARENT WHERE MODULE IS PLACED UNDER
@@ -417,25 +431,19 @@ const handlePasteModule = (modnr, exit, exitalt) => {
             selectedScript.value.ScriptFlow.Mainflow[
                 _parent
                 ].ModuleNumber;
-        //PLACE NEW MODULE AT THE END
+        //PLACE RINDEXED PASTEBOARD AT THE END IF NOT INSERTING
+        //PLACE RINDEXED PASTEBOARD AT THE END IF INSERTING THEN ALSO USE REINDEX MAINFLOW
         selectedScript.value.ScriptFlow.Mainflow =
+            scriptStore.insertModuleActive ?
+            JSON.parse(JSON.stringify(copyOfMainFlow.value)).concat(
+                    JSON.parse(JSON.stringify(pasteBoard.value))
+                ) :
             selectedScript.value.ScriptFlow.Mainflow.concat(
                 JSON.parse(JSON.stringify(pasteBoard.value))
             );
     }
-
-    selectedScript.value.ScriptFlow.Mainflow.forEach((module) => {
-        for (const [key, value] of Object.entries(module)) {
-            if (key.indexOf('Exit') !== -1 && value < 0) {
-
-                // module[key] = REDIRECT_EXIT; //module.ExitParameters.find(exparam => exparam.Name === key).Mandatory ? MANDATORY_EXIT : 0;
-                module[key] = value;
-            }
-        }
-    });
 }
 const onPasteModule = (modnr, exit, exitalt) => {
-    // console.log('onPasteModule modnr', modnr);
     pasteBoard.value !== -1 && handlePasteModule(modnr, exit, exitalt)
 }
 provide('onpastemodule', onPasteModule);
@@ -563,8 +571,7 @@ const getData = async (cId, sId = '') => {
                     .substring(0, 10);
                     s.aDescription = setVersionDescription(s);
                 });
-                // orderedList.value = [...unOrderedList];
-                orderedList.value = unOrderedList.filter(script => script.ScriptType !== "Flash");
+                orderedList.value = [...unOrderedList];
                 totalScripts.value = orderedList.value.length;
                 filterList();
                 resolve();
@@ -699,8 +706,7 @@ const updateVersionDimentions = wId => {
 
 const clickedOnList = async evt => {
     evt.stopPropagation();
-    let _target = evt.target.parentElement;
-    console.log('clickedOnList', _target);
+    let _target = evt.target;
 
     if (_target.classList.contains('delete--js')) {
         deleteFlow(
@@ -719,8 +725,7 @@ const clickedOnList = async evt => {
             )
         );
     } else {
-        // _target = evt.target.closest('LI');
-        // _target = evt.target.closest('LI');
+        _target = evt.target.closest('LI');
         if (
             _target &&
             _target.classList.contains('list-subwrapper__line') &&
@@ -848,6 +853,15 @@ const deleteFlow = (wpId, vId) => {
     };
     mutationAction = 'delete';
     showConfirm();
+}
+
+const setCopiedCallFlow = () => {
+    scriptStore.setCopiedCallFlow(selectedScript.value.ScriptFlowId, selectedScript.value.ScriptFlow);
+}
+
+const pasteCopiedCallFlow = () => {
+    selectedScript.value.ScriptFlow = scriptStore.copiedCallFlow;
+    scriptStore.setCopiedCallFlow(-1, {});
 }
 
 const addScriptToList = responseObject => {
@@ -1156,10 +1170,25 @@ const reIndexPasteBoard = () => {
 
     _toReIndexed = JSON.parse(JSON.stringify(pasteBoard.value));
 
-    _toReIndexed.forEach((module, index) => {
+    _toReIndexed.forEach((module) => {
         let _oldModuleNumber = module.ModuleNumber;
 
         module.ModuleNumber = _startIndex;
+
+        if (scriptStore.insertModuleActive && copyOfMainFlow.value.length > 0) {
+            //CHECK REDIRECTS IN COPY OF MAINFLOW FOR OLDNUMBER, IF TRUE UPDATE
+            copyOfMainFlow.value.forEach((__module) => {
+                for (const [key, value] of Object.entries(__module)) {
+                    if (
+                        key.indexOf('Exit') !== -1 &&
+                        value < 0 &&
+                        Math.abs(value) === _oldModuleNumber
+                    ) {
+                        __module[key] = -Math.abs(_startIndex);
+                    }
+                }
+            });
+        }
 
         _toReIndexed.forEach((_module, _index) => {
             //CHECK DIRTYBIT, CREATE EMPTY ARRAY IF NOT EXISTS
@@ -1176,12 +1205,23 @@ const reIndexPasteBoard = () => {
             }
             //CHECK EXITS FOR OLDNUMBER, IF TRUE UPDATE AND SET DIRTYBIT
             for (const [key, value] of Object.entries(_module)) {
+                //EXITS
                 if (
                     key.indexOf('Exit') !== -1 &&
                     value === _oldModuleNumber &&
                     _dirtyBits[_index].indexOf(key) === -1
                 ) {
                     _module[key] = _startIndex;
+                    _dirtyBits[_index].push(key);
+                }
+                //REDIRECTS
+                else if (
+                    key.indexOf('Exit') !== -1 &&
+                    value < 0 &&
+                    Math.abs(value) === _oldModuleNumber &&
+                    _dirtyBits[_index].indexOf(key) === -1
+                ) {
+                    _module[key] = -Math.abs(_startIndex);
                     _dirtyBits[_index].push(key);
                 }
             }
@@ -1327,41 +1367,27 @@ onBeforeUnmount(() => {
                                       v-html="store.state.settings.scriptbuilder.scolheads[3]"></span>
                             </div>
                         </div>
-                        <VirtualListViewer
-                            ref="listContentWrapper"
-                            class="list-content"
-                            rowClasses="list-content__row--virtual list-content__row--clickable"
-                            :data="orderedList"
-                            @click="clickedOnList($event)"
-                        >
-                            <template v-slot="{ row, index }">
-                                <div v-show="row.ScriptType !== 'Flash' || showFlash" :key="index"
-                                    :class="[
-                                        // 'list-content__row list-content__row--clickable',
-                                        'list-content__row--hover-action', 'activeflow--js',
-                                        { 'isflashscript': row.ScriptType == 'Flash' },
-                                        'list-row',
-                                        { 'list__row--zebra' : index % 2 == 0 },
-                                        { 'list__row--selected' : row.selectedRow }
-                                    ]"
-                                    :data-id="activeId(row)"
-                                    :data-index="index"
-                                >
-                                    <span class="list-content__row-cell list-content__row-cell--20" :title="row.Name"
-                                          v-html="row.Name"></span>
-                                    <span class="list-content__row-cell list-content__row-cell--35" :title="row.aDescription"
-                                          v-html="row.aDescription"></span>
+                        <div ref="listContentWrapper" class="list-content">
+                            <ol @click="clickedOnList($event)">
+                                <li v-for="(script, index) in orderedList"
+                                    v-show="script.ScriptType !== 'Flash' || showFlash" :key="index"
+                                    :class="['list-content__row list-content__row--clickable', 'list-content__row--hover-action', 'activeflow--js', { 'isflashscript': script.ScriptType == 'Flash' }]"
+                                    :data-id="activeId(script)" :data-index="index">
+                                    <span class="list-content__row-cell list-content__row-cell--20" :title="script.Name"
+                                          v-html="script.Name"></span>
+                                    <span class="list-content__row-cell list-content__row-cell--35" :title="script.aDescription"
+                                          v-html="script.aDescription"></span>
                                     <span class="list-content__row-cell list-content__row-cell--20"
-                                          v-html="row.ScriptType"></span>
+                                          v-html="script.ScriptType"></span>
                                     <span class="list-content__row-cell list-content__row-cell--15"
-                                          v-html="row.DateModified"></span>
+                                          v-html="script.DateModified"></span>
                                     <span class="list-content__row-cell list-content__row-cell--15"
-                                          v-html="row.DeployedNumberCount"></span>
+                                          v-html="script.DeployedNumberCount"></span>
                                     <div class="list-content__row-cell list-content__row-cell--icons sublist--js">
                                         <a :data-index="index" class="button__icon list-content__row-hover"
                                            @mouseenter="hoverRow($event)">&#xF1D9;</a>
                                     </div>
-                                    <ol :data-qId="row.Id" class="list-subwrapper">
+                                    <ol :data-qId="script.Id" class="list-subwrapper">
                                         <li class="list-subwrapper__line list-subwrapper__line--header">
                                             <span class="list-subwrapper__cell-icon"></span>
                                             <span class="list-subwrapper__cell-desc">{{
@@ -1379,26 +1405,25 @@ onBeforeUnmount(() => {
 
                                                 }}&nbsp;<i>&#xF156;</i></a>
                                         </li>
-                                        <li v-for="(version, index) in row.Versions" :key="index"
-                                            :class="['list-subwrapper__line activeflow--js', { 'isflashscript': row.ScriptType == 'Flash' }]"
+                                        <li v-for="(version, index) in script.Versions" :key="index"
+                                            :class="['list-subwrapper__line activeflow--js', { 'isflashscript': script.ScriptType == 'Flash' }]"
                                             :data-id="version.Id">
-                                            <span v-if="index == row.ActiveIndex"
+                                            <span v-if="index == script.ActiveIndex"
                                                   class="list-subwrapper__cell-icon list-subwrapper__cell-icon--active">&#xF134;</span>
-                                            <span v-else :data-id="version.Id" :data-wpid="row.Id"
+                                            <span v-else :data-id="version.Id" :data-wpid="script.Id"
                                                   class="list-subwrapper__cell-icon activate--js">&#xF130;</span>
                                             <span class="list-subwrapper__cell-desc">{{version.Description}}</span>
                                             <span class="list-subwrapper__cell-date"
                                                   v-html="modifiedDate(version.DateModified)"></span>
                                             <span class="list-subwrapper__cell-name"
                                                   v-html="version.ModifierName"></span>
-                                            <span v-if="!version.Active" :data-id="version.Id" :data-wpid="row.Id"
+                                            <span v-if="!version.Active" :data-id="version.Id" :data-wpid="script.Id"
                                                   class="list-subwrapper__cell-lasticon delete--js">&#xFA78;</span>
                                         </li>
                                     </ol>
-
-                                </div>
-                            </template>
-                        </VirtualListViewer>
+                                </li>
+                            </ol>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1407,7 +1432,11 @@ onBeforeUnmount(() => {
         <ScriptManager ref="scriptview" :functionlist="functionList" :isstatic="isStatic"
                        :isvisible="scriptManagerVisible" :pasteboard="pasteBoard"
                        :rawscript="selectedScript" :selectedcustomerid="selectedCustomerId"
-                       @closeManager="closeScriptmanager" @scriptcreated="addScriptToList"/>
+                       @closeManager="closeScriptmanager"
+                       @scriptcreated="addScriptToList"
+                       @setCopiedCallFlow="setCopiedCallFlow"
+                       @pasteCopiedCallFlow="pasteCopiedCallFlow"
+                       />
     </div>
 </template>
 

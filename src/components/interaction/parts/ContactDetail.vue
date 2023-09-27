@@ -665,7 +665,7 @@ export default defineComponent({
                 contactProps.value = contact;
                 getContactData();
             }
-        }, {immediate:true});
+        }, {deep:true,immediate:true});
 
         return {
             store, contactData, dotStatusColor, getInitials,

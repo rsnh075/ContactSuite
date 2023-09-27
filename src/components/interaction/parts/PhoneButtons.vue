@@ -361,15 +361,27 @@ const activatePickUpButton = () => {
         sipCall.value.on("message", (message) => {
             if (message._plainMessage.plugindata) {
                 let _result = message._plainMessage.plugindata.data.result;
+                // enable the pickup button on incommingcall
+                // discard anything about registring and unregistring while enabled
+                // disable the pickup button on accepted while enabled and anything else that is not about registring and unregistring
+                // (may be redundant/or may need more specificing)
+                let _enablePickup = enablePickUp.value;
                 enablePickUp.value =
-                    _result.event == "incomingcall" ||
-                    (_result.event == "registered" && enablePickUp.value);
+                    _result.event == "incomingcall" &&
+                    !(_result.event == "accepted" && enablePickUp.value) &&
+                    !(_result.event == "hangup" && enablePickUp.value);
                 store.commit("SET_RINGING", enablePickUp.value);
+                //only log enablePickUp when changed
+                if (_enablePickup !== enablePickUp.value) {
+                    _enablePickup = enablePickUp.value;
+                    Logging.WriteAlways(`[${currentLocalDateTimeISO()}] [[event: ${_result.event}]], enablePickUp: ${enablePickUp.value ? 'Y' : 'N'}, on: ${_result.event}, showPickup: ${showPickup.value ? 'Y' : 'N'}`);
+                }
             }
         });
     }
 };
 
+//Only for Jabra
 store.watch(store.getters.getPickupActiveCall, state => {
     if (state) {
         // console.log('pickUpActiveCall');
@@ -379,6 +391,7 @@ store.watch(store.getters.getPickupActiveCall, state => {
     }
 });
 
+//Only for Jabra
 store.watch(store.getters.getHangupActiveCall, state => {
     if (state) {
         // console.log('hangupActiveCall');
@@ -388,9 +401,9 @@ store.watch(store.getters.getHangupActiveCall, state => {
     }
 });
 
+//Only for Jabra
 watch(enablePickUp, state => {
     store.commit('WEBRTC_IS_RINGING', state);
-    Logging.WriteAlways(`[${currentLocalDateTimeISO()}] enablePickUp: ${state ? 'Y' : 'N'}, showPickup: ${showPickup.value ? 'Y' : 'N'}`);
 });
 
 watch(initializePickupButton, (newStatus, oldStatus) => {

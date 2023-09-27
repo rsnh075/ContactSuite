@@ -5,10 +5,13 @@ import {calculateMaxHeight, coordsElementInViewport, transitionEnd} from '@/use/
 import {useStore} from 'vuex';
 import {useScriptBuilderStore} from '@/store/cmScriptBuilderStore';
 import { Close } from 'mdue';
+import { currentLocalDateTimeISO }  from '@/use/dateFunctions';
+import { Logging } from '../../ipccc/lib/logging';
 
 const browserLanguage = ref('nl');
 
 const store = useStore();
+const showLoader = inject('showLoader');
 const props = defineProps(['treedata', 'isstatic', 'functionlist', 'selectedcustomerid', 'exitParams', 'pasteboard']);
 const COLLAPST_MODULE_HEIGHT = 41;
 const ischild = ref(false); //Firsttime always false
@@ -103,7 +106,6 @@ const moduleMenuEscListener = evt => {
     }
 };
 const closeModuleMenu = () => {
-    // console.log('closeModuleMenu', );
     contextMenuBranch.value = null;
     branchToInsert.value = null;
     moduleMnu.classList.remove('scriptmodule__modulepicker--open');
@@ -129,11 +131,10 @@ provide('showModuleMenu', showModuleMenu);
 
 const branchToInsert = ref(null);
 const openInsertModuleMenu = (branch, scrEl) => {
-    // console.log('openInsertModuleMenu');
     toggleContextMenu(null);
     positionMenu(scrEl, moduleMnu);
     moduleMnu.classList.toggle('scriptmodule__modulepicker--open');
-    branchToInsert.value = branch;
+    branchToInsert.value = branch; //same as contextMenuBranch but with different name and state
     document.addEventListener('keydown', moduleMenuEscListener);
 };
 
@@ -160,13 +161,27 @@ const addNewModule = (moduleId = 0, insertAfter = 100, atExitType, exitTypeAlt) 
 };
 
 const insertNewModule = (moduleId = 0) => {
-    // console.log('Insert moduleId:', moduleId);
-    oncutmodule(branchToInsert.value.ModuleNumber);
-    onaddmodule(moduleId, branchToInsert.value.ParentModule, branchToInsert.value.exitType, branchToInsert.value.exitTypeAlt)
-        .then((newModuleNumber) => {
-            onpastemodule(newModuleNumber, 'ExitSuccess', 'ExitSuccess');
-            closeModuleMenu();
-        });
+    showLoader(true);
+    scriptStore.insertModuleActive = true;
+    try {
+        oncutmodule(branchToInsert.value.ModuleNumber);
+        onaddmodule(moduleId, branchToInsert.value.ParentModule, branchToInsert.value.exitType, branchToInsert.value.exitTypeAlt)
+            .then((newModuleNumber) => {
+                onpastemodule(newModuleNumber, 'ExitSuccess', 'ExitSuccess');
+                closeModuleMenu();
+                scriptStore.insertModuleActive = false;
+                showLoader(false);
+            })
+            .catch(() => {
+                scriptStore.insertModuleActive = false;
+                showLoader(false);
+            });
+    } catch (e) {
+        Logging.WriteAlways(`[${currentLocalDateTimeISO()}] Treebuilder insertNewModule try/catch error: ${e}`);
+        scriptStore.insertModuleActive = false;
+        showLoader(false);
+        console.error(e);
+    }
 };
 
 const removeNode = modnr => {
@@ -221,7 +236,6 @@ const contextMenuStyle = computed(() => {
     };
 });
 const toggleContextMenu = menuData => {
-    // console.log('toggleContextMenu', menuData);
     if (menuData === null ||
         (contextMenuBranch.value !== null && menuData.branch.ModuleNumber === contextMenuBranch.value.ModuleNumber)
     ) {
@@ -257,7 +271,6 @@ const closeExitsMenu = () => {
 };
 
 const closeAllMenus = () => {
-    // console.log('closeAllMenus');
     toggleContextMenu(null);
     closeExitsMenu();
     closeModuleMenu();
@@ -266,6 +279,7 @@ const closeAllMenus = () => {
 };
 
 const isExit = computed(() => contextMenuBranch.value !== null && contextMenuBranch.value.ModuleNumber === '');
+const isRedirect = computed(() => contextMenuBranch.value !== null && contextMenuBranch.value.Name == 'Redirect');
 const showPasteMenuItem = computed(() => contextMenuBranch.value !== null && contextMenuBranch.value.ModuleNumber === '');
 
 onMounted(() => {
@@ -291,10 +305,10 @@ defineExpose({
         <!-- CONTEXT MENU -->
         <div v-if="contextMenuBranch !== null" :style="contextMenuStyle" class="list-content__row-menu">
             <ol>
-                <li v-if="!isExit" class="list-content__menu-item" @click.stop="cutModule()"><span>&#xF190</span>
+                <li v-if="!isExit && !isRedirect" class="list-content__menu-item" @click.stop="cutModule()"><span>&#xF190</span>
                     {{ store.state.settings.scriptmanager.contextmenu.cut }}
                 </li>
-                <li v-if="!isExit" class="list-content__menu-item" @click.stop="copyModule()"><span>&#xF18F</span>
+                <li v-if="!isExit && !isRedirect" class="list-content__menu-item" @click.stop="copyModule()"><span>&#xF18F</span>
                     {{ store.state.settings.scriptmanager.contextmenu.copy }}
                 </li>
                 <li v-if="showPasteMenuItem" :class="{ inactive: true}" class="list-content__menu-item"
@@ -304,7 +318,7 @@ defineExpose({
                 <li v-if="checkOptionals(contextMenuBranch)" class="list-content__menu-item" @click.stop="openOptionalExitsMenu();">
                     <span>&#xF490</span> {{ store.state.settings.scriptmanager.contextmenu.addoptionalexit }}
                 </li>
-                <li class="list-content__menu-item" @click.stop="openInsertModuleMenu(contextMenuBranch, $event.target);">
+                <li v-if="!isExit && !isRedirect" class="list-content__menu-item" @click.stop="openInsertModuleMenu(contextMenuBranch, $event.target);">
                     <span>&#xF490</span> {{ store.state.settings.scriptmanager.contextmenu.addmodule }}
                 </li>
                 <li v-if="!isstatic && deletable(contextMenuBranch.Name)" class="list-content__menu-item"

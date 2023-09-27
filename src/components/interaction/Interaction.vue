@@ -586,6 +586,8 @@ export default defineComponent({
 
 		const {
 			groupedByDayRecordingList,
+            uniqueRoutinggroupsList,
+            selectedRoutinggroupsList,
 			selectedRecording,
             unreadVoicemailCounter
 		} = useVoicemailData(),
@@ -599,6 +601,8 @@ export default defineComponent({
         // })
 
 		provide('groupedByDayRecordingList', readonly(groupedByDayRecordingList));
+		provide('uniqueRoutinggroupsList', readonly(uniqueRoutinggroupsList));
+		provide('selectedRoutinggroupsList', readonly(selectedRoutinggroupsList));
 		provide('selectedRecording', readonly(selectedRecording));
 		provide('unreadVoicemailCounter', readonly(unreadVoicemailCounter));
 

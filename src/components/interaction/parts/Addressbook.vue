@@ -249,7 +249,22 @@ export default defineComponent({
             else {
                 console.error("UpdatedContact coudn't be proccesed: ", updatedContact);
             }
+
+            if (store.getters.getSelectedContact() && store.getters.getSelectedContact().Id == updatedContact.Id) {
+                selectedContactUpdateState(updatedContact);
+            }
         }
+
+        const selectedContactUpdateState = (updatedContact) => {
+            store.commit(
+                'SET_SELECTED_CONTACT',
+                {
+                    'contact': updatedContact,
+                    'leftlanemaxonopencontact' : store.getters.getLeftLaneMaxOnOpenContact
+                }
+            );
+        }
+
         /* START HANDELING EVENTS */
 
         const chatInternal = (userid: string, e: MouseEvent):void => {

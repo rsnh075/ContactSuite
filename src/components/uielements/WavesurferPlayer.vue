@@ -54,7 +54,8 @@ const waveformRef = ref(null),
     playerIsFocused = ref(false),
     audioIsLoaded = ref(false),
     waveFormIsLoaded = ref(false),
-    playbuttonIcon = computed(() => (audioIsLoaded.value) ? (wavesurfer.value?.isPlaying() ? 'Pause' : 'Play') : 'Play'),
+    isPlaying = ref(false),
+    playbuttonIcon = computed(() => isPlaying.value ? Pause : Play),
     showTime = ref(false),
     currentTime = ref('00:00'),
     selectedRegionId = ref(-1),
@@ -138,6 +139,10 @@ function setWavesurferEvents() {
     wavesurfer.value.on('pause', function () {
         setAllRegionPlayButtonsToPlay();
         isPlayingRegion.value = false;
+        isPlaying.value = false;
+    }, { passive: true });
+    wavesurfer.value.on('play', function () {
+        isPlaying.value = true;
     }, { passive: true });
     wavesurfer.value.on('zoom', () => {
         emits('onzoom');
@@ -180,6 +185,10 @@ onBeforeUnmount(() => {
 watch(() => props.source, (newSource) => {
     wavesurfer.value?.load(newSource)
 });
+
+function handlePlayBtn() {
+    wavesurfer.value?.isPlaying() ? pausePlayer() : playPlayer();
+}
 
 function playPlayer() {
     wavesurfer.value?.play();
@@ -359,6 +368,8 @@ function zoomInOut(val) {
 }
 
 defineExpose({
+    playbuttonIcon,
+    handlePlayBtn,
     playPlayer,
     pausePlayer,
     stopPlayer,
@@ -377,11 +388,10 @@ defineExpose({
 <template>
     <div class="wavesurferplayer" data-e2e="wavesurfer-player">
         <div class="wavesurferplayer__statetxt" v-if="!waveFormIsLoaded">Analyzing audio...</div>
-        <div class="wavesurferplayer__playbtn">
-            <Pause v-if="wavesurfer?.isPlaying()" @click="pausePlayer" />
-            <Play v-else @click="playPlayer" />
-            <div class="wavesurferplayer__time" v-if="audioIsLoaded && showTime">{{ currentTime }}</div>
-        </div>
+        <div class="wavesurferplayer__time" v-if="audioIsLoaded && showTime">{{ currentTime }}</div>
+        <button type="button" class="wavesurferplayer__playbtn" @click="handlePlayBtn">
+            <component :is="playbuttonIcon" />
+        </button>
         <div class="wavesurferplayer__waveform"
         ref="waveformRef"
         @focus="playerIsFocused = true"
@@ -427,11 +437,14 @@ defineExpose({
         &:hover {
             background-color: globals.$color-gray5;
         }
-        .wavesurferplayer__time {
+    }
+    &__time {
             position: absolute;
             width: 50px;
+            height: 40px;
             inset: 0 0 0 0;
-            padding: 2px 4px;
+            text-align: center;
+            line-height: 40px;
             font-size: 12px;
             color: globals.$color-gray60;
             background-color: white;
@@ -439,7 +452,6 @@ defineExpose({
             user-select: none;
             pointer-events: none;
         }
-    }
     &__waveform {
         flex: 1;
         position: relative;

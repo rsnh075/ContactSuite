@@ -62,8 +62,14 @@ const moduleIcon = computed(() => {
     };
 });
 
-const createTooltip = type => {
-    const text = EXIT_LABELS[browserLanguage][type] ? EXIT_LABELS[browserLanguage][type].name : 'Exit';
+const createTooltip = (type, typeAlt) => {
+    let text;
+    if (typeAlt && typeAlt.length > 0) {
+        text = EXIT_LABELS[browserLanguage][typeAlt] ? EXIT_LABELS[browserLanguage][typeAlt].name : 'Exit';
+    }
+    else {
+        text = EXIT_LABELS[browserLanguage][type] ? EXIT_LABELS[browserLanguage][type].name : 'Exit';
+    }
     return  `<span class="tooltip tooltip--right">${text}</span>`;
 };
 
@@ -209,6 +215,7 @@ onBeforeUnmount(() => {
                         autofocus
                         :placeholder="store.state.settings.scriptbuilder.searchtxt"
                         type="text"
+                        @click.stop=""
                     >
                 </div>
             </div>
@@ -256,7 +263,15 @@ onBeforeUnmount(() => {
                     <button
                         type="button"
                         v-if="isObject(branch) && branch.Exits?.length > 0"
-                        class="scriptmodule-toggle"
+                        :class="[
+                                'scriptmodule-toggle', {
+                                    'scriptmodule-toggle--lastexit-withmodule' :
+                                    (
+                                        tree.length - 1 == index && // last exit in tree
+                                        branch.ModuleParameters?.length > 0 // exit is a module
+                                    )
+                                }
+                            ]"
                         @click.stop="toggleNode(index)"
                     >
                         <PlusCircleOutline v-if="minimizedBranches.indexOf(index) > -1" />
@@ -267,7 +282,7 @@ onBeforeUnmount(() => {
                         <!-- Exittype -->
                         <div v-if="ischild" :style="exitStyle(branch.exitType, branch.exitTypeAlt)"
                              class="scriptmodule__exittype tooltip__parent"
-                             v-html="exitIcon(branch.exitType) + createTooltip(branch.exitType)"></div>
+                             v-html="exitIcon(branch.exitType) + createTooltip(branch.exitType, branch.exitTypeAlt)"></div>
                         <!-- module -->
                         <component
                                 :is="getModuleType(branch)"

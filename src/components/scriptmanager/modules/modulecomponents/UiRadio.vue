@@ -24,7 +24,7 @@ watch(
                 radioValue.value = props.params.CurrentValue;
             });
         }
-    });
+    }, {immediate:true});
 
 const setValue = () => {
     props.params.CurrentValue = radioValue.value;

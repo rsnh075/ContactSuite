@@ -156,6 +156,15 @@ $contentBackColor     : functions.tint(globals.$color-black, 93%);
     &--disabled {
         pointer-events: none;
     }
+    &--lastexit-withmodule::after {
+        content: '';
+        width: 2px;
+        background: globals.$color-white;
+        height: 10000px;
+        position: absolute;
+        left: 20px;
+        top: 12px;
+    }
 }
 
 .scripttree-branch--static {

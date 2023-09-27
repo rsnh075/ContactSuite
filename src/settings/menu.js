@@ -189,6 +189,15 @@ export const MENU = {
 							"url"       : "/reports/inbound/historical-per-day/",
 							"subMenu"   : []
 						},{
+                            "label"     : {
+								"nl" : "Analyse per dag",
+								"en" : "Insights per day"
+							},
+							"Icon"      : "Dialpad",
+							"Code"      : "NummerRapportage",
+							"url"       : "/reports/inbound/insights-per-day/",
+							"subMenu"   : []
+						},{
 							"label"     : {
 								"nl" : "ASR Analyse",
 								"en" : "ASR Insights"
@@ -280,6 +289,15 @@ export const MENU = {
 							"Icon"      : "ViewGrid",
 							"Code"      : "WachtrijRapportage",
 							"url"       : "/reports/call-groups/cdc/",
+							"subMenu"   : []
+						},{
+                            "label"     : {
+								"nl" : "Eindbestemmingen",
+								"en" : "Extentions"
+							},
+							"Icon"      : "PhoneClassic",
+							"Code"      : "WachtrijRapportage",
+							"url"       : "/reports/call-groups/extentions/",
 							"subMenu"   : []
 						},{
 							"label"     : {

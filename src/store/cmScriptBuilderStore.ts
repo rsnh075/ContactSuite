@@ -13,6 +13,11 @@ export const useScriptBuilderStore = defineStore('scriptBuilderStore', () => {
     const systemVars = ref<string[]>([]);
     const vars = computed(() => [...userVars.value, ...systemVars.value]);
     const requestResults = ref({});
+    const redirectBeforeInsert = ref(false);
+
+    const setInsertModuleActive = (bool: boolean) => {
+        redirectBeforeInsert.value = bool;
+    }
 
     const init = async (customerId: number, usedVars: string[]) => {
         // user vars are only valid inside the current script
@@ -75,11 +80,28 @@ export const useScriptBuilderStore = defineStore('scriptBuilderStore', () => {
         return userVars.value.find(v => v.toLowerCase().trim() === newVar.toLowerCase().trim()) === undefined;
     };
 
+    const copiedCallFlowId = ref(-1);
+    const copiedCallFlow = ref({});
+    const hasCopiedCallFlow = computed(() => Object.keys(copiedCallFlow.value).length > 0 && copiedCallFlow.value.constructor == Object);
+
+    const setCopiedCallFlow = (callFlowId: number, callFlow: []) => {
+        copiedCallFlowId.value = callFlowId;
+        copiedCallFlow.value = callFlow;
+    }
+
+    const cancelPasteCallFlow = () => {
+        copiedCallFlowId.value = -1;
+        copiedCallFlow.value = {};
+    }
+
     return {
         // vars
         addModuleId, vars, userVars,
+        copiedCallFlowId, copiedCallFlow, hasCopiedCallFlow,
+        redirectBeforeInsert, setInsertModuleActive,
 
         // functions
-        init, clear, addUserVar, isValidVar, isNewVarAllowed, fetchListResults
+        init, clear, addUserVar, isValidVar, isNewVarAllowed, fetchListResults,
+        setCopiedCallFlow, cancelPasteCallFlow
     };
 });

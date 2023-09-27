@@ -2,7 +2,7 @@
  *
  * Detailscreen style sheet
  *
- * 
+ *
  * @project ContactSuite
  * @version 1.0
  * @author Wim Jurriaans
@@ -11,7 +11,7 @@
  *
  * @date 10-10-2017
  * @modified
- * 
+ *
  */
 
   @use "font";
@@ -93,8 +93,9 @@
   min-width: 860px;
 }
 
-.detailscreen--stretch {
+.detailscreen-wrapper .detailscreen.detailscreen--stretch {
   width: calc(100% - 140px);
+  max-width: calc(100% - 140px);
 }
 
 .detailscreen-wrapper--visable .detailscreen {
@@ -268,7 +269,7 @@
   left: 24px;
   width: 34px;
   height: 34px;
-  transform: translate(-50%, -50%);  
+  transform: translate(-50%, -50%);
   &:before {
     content: '\F318';
     color: globals.$color-secondary;
@@ -300,13 +301,13 @@
   border-radius: 50%;
   background-color: transparent;
   border: 2px solid transparent;
-}  
+}
 .detailscreen__title-status-init {
   position: absolute;
   top: 51%;
   left: 50%;
   transform: translate(-50%, -50%);
-  @include font.font-menu();  
+  @include font.font-menu();
   display: block;
   font-size: 1.2em;
 }
@@ -355,7 +356,7 @@
 }
 
 .detailscreen-footer--outside {
-  left: 0; 
+  left: 0;
   height: 80px;
   float: left;
   position: sticky;
@@ -384,7 +385,7 @@
     background-color: globals.$color-white;
     box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);
   }
-  &:after { 
+  &:after {
     box-shadow: none;
     top: -5px;
   }

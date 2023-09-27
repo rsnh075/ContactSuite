@@ -5,6 +5,7 @@ import { IPCCCConfigurator } from '@/ipccc/js/configurator';
 import BoxProps, { ModalType } from '../../types/BoxProps';
 import { computed, inject, onBeforeUnmount, onMounted, onUpdated, provide, ref, watch } from 'vue';
 import { useStore } from 'vuex';
+import {useScriptBuilderStore} from '@/store/cmScriptBuilderStore';
 
 const store = useStore();
 const props = defineProps({
@@ -16,7 +17,8 @@ const props = defineProps({
     pasteboard: {}
 });
 
-const emit = defineEmits(['closeManager', 'scriptcreated']);
+const emit = defineEmits(['closeManager', 'scriptcreated', 'setCopiedCallFlow', 'pasteCopiedCallFlow']);
+const scriptStore = useScriptBuilderStore();
 const showHelp = ref(false);
 const scriptData = ref([]);
 const treeroot = ref(null);
@@ -368,7 +370,7 @@ const stripModulesFromObject = module => {
                 exit.ExitParameters = [];
                 delete exit[Object.keys(exit)[0]];
             }
-            if (Object.values(exit)[0] < 0) {
+            if (Object.values(exit)[0] < 0) { //REDIRECT EXIT
                 exit.exitType = Object.keys(exit)[0];
                 exit.exitTypeAlt = Object.keys(exit)[0] + addModuleId(_module.ModuleId);
                 exit.Name = 'Redirect';
@@ -489,6 +491,15 @@ onBeforeUnmount(() => {
                             <ToggleField :model-value="showCompact" @change="toggleShowCompact()" class="webrtc-constraints-togglefield" />
                             <label class="form-label">{{store.state.settings.scriptmanager.compactlbl}}</label>
                         </span> -->
+                        <button type="button" v-if="scriptStore.hasCopiedCallFlow && scriptStore.copiedCallFlowId !== props.rawscript.ScriptFlowId" class="button-primary button-primary--gray" @click="emit('pasteCopiedCallFlow')">{{
+                            store.state.settings.scriptmanager.pastecallflowbtn
+                        }}</button>
+                        <button type="button" v-if="scriptStore.hasCopiedCallFlow && scriptStore.copiedCallFlowId == props.rawscript.ScriptFlowId" class="button-primary button-primary--gray" @click="scriptStore.cancelPasteCallFlow">{{
+                            store.state.settings.scriptmanager.cancelpastecallflowbtn
+                        }}</button>
+                        <button type="button" v-if="!scriptStore.hasCopiedCallFlow" class="button-primary button-primary--gray" @click="emit('setCopiedCallFlow')">{{
+                            store.state.settings.scriptmanager.copycallflowbtn
+                        }}</button>
                     </div>
                 </div>
                 <div class="grid-row">
@@ -550,7 +561,7 @@ onBeforeUnmount(() => {
 <style scoped>
 .newscript-title {
     display: grid;
-    grid-template-columns: 1fr 150px;
+    grid-template-columns: 1fr 175px;
     grid-column-gap: 5px;
 }
 

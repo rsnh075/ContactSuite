@@ -131,6 +131,9 @@ export default {
         case 'cdc':
           this.selectedReport    = 'shared/LIVE/Call_Groups_CDC';
           break;
+        case 'extentions':
+          this.selectedReport    = 'shared/LIVE/Extention';
+          break;
         case 'agents':
           this.selectedReport    = 'shared/LIVE/Agent';
           break;
@@ -166,6 +169,9 @@ export default {
           break;
         case 'historical-per-day':
           this.selectedReport    = 'shared/LIVE/Calls_Numbers_Historical_Per_Day';
+          break;
+        case 'insights-per-day':
+          this.selectedReport    = 'shared/LIVE/Calls_Insights_Per_Day';
           break;
         case 'asr-insights':
           this.selectedReport    = 'shared/LIVE/ASR_Insights';

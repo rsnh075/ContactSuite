@@ -221,7 +221,7 @@ onBeforeUnmount(() => {
     </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use "@/scss/includes/functions";
 @use "@/scss/includes/globals";
 

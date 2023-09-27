@@ -3,6 +3,9 @@
   /**
    *
    * select
+   * @info
+   * All listitems must have the same height to render correctly
+   * Styles applied to the listitems from the parent component are not applied to the listitems in the virtualList when the styles are scoped
    *
    * @author Erik Rosenhart
    *

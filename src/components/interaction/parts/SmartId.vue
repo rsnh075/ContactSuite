@@ -27,21 +27,17 @@ export default {
  */
 
 import { useStore } from 'vuex';
-import { inject, computed, ref, watch, watchEffect } from 'vue';
+import { inject, computed, ref, watch, Ref } from 'vue';
 import { ISOdateTimetoTime, ISOdateTimetoDate } from '../../../use/dateFunctions';
-import { deepCopy } from '../../../use/helperFunctions';
-import { IPCCCConfigurator } from '../../../ipccc/js/configurator';
-// import ArrowButton from './../../uielements/ArrowButton.vue';
 import { LineInfo } from '../../../types/LineInfo';
 
-const store:object | any     = useStore(),
-	toggleLoader:Function    = inject('toggleLoader'),
-	lastInboundLineInfo      = inject('lastInboundLineInfo') as LineInfo,
-	nvpData					 = computed(() => lastInboundLineInfo.value.nvpData),
-	hasNvpData               = computed(() => nvpData.value.length > 0),
-	hasLastInboundLineInfo   = computed(() => lastInboundLineInfo.value.index > -1),
-	routingGroups            = ref([]),
-	startAgentCall           = ref('');
+const store:object | any                    = useStore(),
+	toggleLoader:Function                   = inject('toggleLoader'),
+	lastInboundLineInfo:Ref<LineInfo>       = inject('lastInboundLineInfo'),
+	nvpData					                = computed(() => lastInboundLineInfo.value.nvpData),
+	hasNvpData                              = computed(() => nvpData.value.length > 0),
+	hasLastInboundLineInfo                  = computed(() => lastInboundLineInfo.value.index > -1),
+	startAgentCall                          = ref('');
 
 watch(() => hasNvpData.value, (newVal:boolean, oldVal) => {
 	if(newVal) {

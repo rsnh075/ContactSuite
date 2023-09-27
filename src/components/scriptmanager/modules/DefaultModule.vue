@@ -62,7 +62,6 @@ const getComponent = (type) => uiComponents[`uiComponent_${type === 16 ? 9 : typ
 const getUiElements = id => uiElements['UiElement_' + id];
 
 const toggleProps = () => {
-    // console.log('toggleProps');
 
     let _props = propToggle.value.querySelector('.scriptmodule__props');
     if (_props === null) {
