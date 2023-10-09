@@ -14,11 +14,7 @@ place the folders in: \public\js\
 Edit the file \public\js\IPCCCGUI\IdentityServer\config.js and change the domainname to the local one.
 
 var IPCCCIDSConfig = {
-    Authority: "https://testidserver.ipccc.nl:5000",
-    Redirect_uri: "https://local.contactsuite.nl:3000/js/IPCCCGUI/IdentityServer/callback.html",
-    Response_type: "id_token token",
-    Scope: "openid profile IPCCC_Scope",
-    Post_logout_redirect_uri: "https://local.contactsuite.nl:3000/",
+    ...
 }
 
 ```
